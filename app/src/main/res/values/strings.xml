@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MyTweet</string>
+    <string name="Welcome_txt_id">Welcome to MyTweet</string>
+    <string name="button_welcome_signup_id">Sign Up</string>
+    <string name="button_welcome_login_id">Login</string>
+    <string name="Welcome_txtsub_id">See what is happening in the great WIT world right now</string>
+</resources>
