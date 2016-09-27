@@ -4,4 +4,14 @@
     <string name="button_welcome_signup_id">Sign Up</string>
     <string name="button_welcome_login_id">Login</string>
     <string name="Welcome_txtsub_id">See what is happening in the great WIT world right now</string>
+    <string name="textview_login_id">Email</string>
+    <string name="textview_login_password_id">Passsword</string>
+    <string name="button_login_id">Login</string>
+    <string name="textview_Login_banner_id">Login</string>
+    <string name="textview_signup_banner_id">Sign Up</string>
+    <string name="textview_signup_fname_id">First name</string>
+    <string name="textview_signup_lname_id">Last name</string>
+    <string name="textview_signup_email_id">Email</string>
+    <string name="textview_signup_password_id">Password</string>
+    <string name="button_signup_view_id">Sign Up</string>
 </resources>
