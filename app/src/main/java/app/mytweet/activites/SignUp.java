@@ -1,7 +1,9 @@
 package app.mytweet.activites;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import app.mytweet.R;
 
@@ -17,5 +19,10 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
     }
-
+    public void SignUpPressed (View view)
+    {
+        startActivity (new Intent(this, Login.class));
+        //Toast toast = Toast.makeText(this, "Login Pressed!", Toast.LENGTH_SHORT);
+        //toast.show();
+    }
 }

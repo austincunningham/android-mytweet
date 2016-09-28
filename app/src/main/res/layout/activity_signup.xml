@@ -126,6 +126,7 @@
         android:layout_height="wrap_content"
         android:text="@string/button_signup_view_id"
         android:id="@+id/button4"
+        android:onClick="SignUpPressed"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
