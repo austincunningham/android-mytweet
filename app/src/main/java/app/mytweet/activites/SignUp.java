@@ -6,17 +6,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import app.mytweet.R;
+import app.mytweet.app.MyTweetApp;
 
 /**
  * Created by austin on 27/09/2016.
  */
 public class SignUp extends AppCompatActivity {
 
+    private MyTweetApp app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        app = (MyTweetApp)getApplication();
 
     }
     public void SignUpPressed (View view)
