@@ -1,4 +1,4 @@
-package com.mytweet.austin.mytweet;
+package app.mytweet;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

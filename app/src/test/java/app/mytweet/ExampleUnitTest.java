@@ -1,4 +1,4 @@
-package com.mytweet.austin.mytweet;
+package app.mytweet;
 
 import org.junit.Test;
 
