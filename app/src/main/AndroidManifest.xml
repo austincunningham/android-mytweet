@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.mytweet.austin.com.austin.Welcome">
+        <activity android:name=".Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,11 +16,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mytweet.austin.com.austin.SignUp"
+            android:name=".SignUp"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.mytweet.austin.com.austin.Login"
+            android:name=".Login"
             android:label="@string/app_name" >
         </activity>
     </application>
