@@ -25,4 +25,6 @@ public class MyTweetApp extends Application {
         super.onCreate();
         Log.v("MyTweetApp", "MyTweet App Started");
     }
+
+    
 }
