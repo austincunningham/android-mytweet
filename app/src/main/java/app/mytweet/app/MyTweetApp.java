@@ -26,5 +26,14 @@ public class MyTweetApp extends Application {
         Log.v("MyTweetApp", "MyTweet App Started");
     }
 
-    
+    public boolean validUser (String email, String password){
+        for(User user : users){
+            if (user.email.equals(email) && user.password.equals(password)){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 }
