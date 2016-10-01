@@ -15,19 +15,21 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tweetText"
         android:textSize="25sp"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
+        android:textColorHint="@color/grey"
+        android:textColor="@color/grey"
         android:textStyle="bold|italic"
         android:hint="@string/tweetHint"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/Tweet"
+        android:layout_below="@+id/tweetButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="42dp" />
@@ -42,13 +44,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tweetButton"
-        android:id="@+id/Tweet"
+        android:id="@+id/tweetButton"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="54dp"
         android:layout_alignParentTop="true"
@@ -66,21 +70,25 @@
         android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:textStyle="bold|italic"
-        android:layout_alignTop="@+id/Tweet"
+        android:layout_alignTop="@+id/tweetButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/Tweet"
-        android:layout_toLeftOf="@+id/Tweet"
-        android:layout_toStartOf="@+id/Tweet" />
+        android:layout_alignBottom="@+id/tweetButton"
+        android:layout_toLeftOf="@+id/tweetButton"
+        android:layout_toStartOf="@+id/tweetButton"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="100dp"/>
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/date"
-        android:textSize="25sp"
         android:layout_above="@+id/selectContact"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
 </RelativeLayout>
