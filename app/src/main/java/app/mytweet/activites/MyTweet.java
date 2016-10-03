@@ -13,19 +13,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import app.mytweet.R;
+import app.mytweet.android.helpers.ContactHelper;
 import app.mytweet.app.MyTweetApp;
 import app.mytweet.models.Tweet;
+
+import static app.mytweet.android.helpers.ContactHelper.getContact;
+import static app.mytweet.android.helpers.ContactHelper.sendEmail;
+import static app.mytweet.android.helpers.IntentHelper.selectContact;
+import android.content.Intent;
 
 /**
  * Created by austin on 28/09/2016.
  */
-public class MyTweet extends AppCompatActivity implements TextWatcher {
+public class MyTweet extends AppCompatActivity implements TextWatcher, View.OnClickListener {
 
     private EditText tweetText;
     private TextView characterCount;
     private Tweet tweet;
     private Button date;
     private Button tweetButton;
+    private Button selectContact;
+    private Button emailTweet;
+    private static final int REQUEST_CONTACT = 1;
+    private String emailAddress = "";
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,8 @@ public class MyTweet extends AppCompatActivity implements TextWatcher {
         date = (Button)findViewById(R.id.date);
         tweetText = (EditText)findViewById(R.id.tweetText);
         characterCount = (TextView)findViewById(R.id.characterCount);
+        selectContact = (Button) findViewById(R.id.selectContact);
+        emailTweet = (Button) findViewById(R.id.emailTweet);
 
         tweet = new Tweet();
 
@@ -61,6 +73,36 @@ public class MyTweet extends AppCompatActivity implements TextWatcher {
 
         //characterCount.setText(' '+count);
         date.setText(tweet.getDateString());
+        selectContact.setOnClickListener(this);
+        emailTweet.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.selectContact : selectContact(this, REQUEST_CONTACT);
+                break;
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (requestCode)
+        {
+            case REQUEST_CONTACT:
+                String name = ContactHelper.getContact(this, data);
+                emailAddress = ContactHelper.getEmail(this, data);
+                selectContact.setText(name + " : " + emailAddress);
+                //residence.tenant = name;
+                break;
+            case R.id.emailTweet :
+                sendEmail(this, emailAddress,"email from Tweet","email body");
+                break;
+        }
     }
 
     @Override

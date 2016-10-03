@@ -15,7 +15,12 @@
     <string name="textview_signup_password_id">Password</string>
     <string name="button_signup_view_id">Sign Up</string>
     <string name="tweetButton">Tweet</string>
+    <string name="tweetHint">What\'s in your mind?</string>
+
     <string name="selectContact">Select Contact</string>
     <string name="emailTweet">Email Tweet</string>
-    <string name="tweetHint">What\'s in your mind?</string>
+
+
+
+
 </resources>
