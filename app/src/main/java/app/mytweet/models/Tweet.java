@@ -11,10 +11,15 @@ public class Tweet {
     public int count;
     public long date;
     public Long id;
+    public String tweetContent;
 
     private String tweet;
 
-    public void Tweet(){
+
+
+    public Tweet(){//String tweetContent){//, int count){
+        //tweetContent = this.tweetContent;
+        //count = this.count;
         id = new Random().nextLong();
         date = new Date().getTime();
     }

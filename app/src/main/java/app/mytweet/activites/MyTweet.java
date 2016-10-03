@@ -1,5 +1,6 @@
 package app.mytweet.activites;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextWatcher;
@@ -9,8 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.text.Editable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import app.mytweet.R;
+import app.mytweet.app.MyTweetApp;
 import app.mytweet.models.Tweet;
 
 /**
@@ -46,11 +49,20 @@ public class MyTweet extends AppCompatActivity implements TextWatcher {
         }
     }
 
+    public void tweetPressed (View view)
+    {
+        MyTweetApp app = (MyTweetApp)getApplication();
+
+        tweetText = (EditText)findViewById(R.id.tweetText);
+        //Tweet tweet = new Tweet(tweetText.getText().toString());
+
+        //startActivity(new Intent(this, MyTweet.class));
+    }
+
     public void updateControls(Tweet tweet)
     {
-        //tweet.setText(tweet.tweet);
-//        String value = count + " ";
-//        characterCount.setText(value);
+
+        characterCount.setText(tweet.count);
         date.setText(tweet.getDateString());
     }
 
