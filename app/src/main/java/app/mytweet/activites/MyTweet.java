@@ -24,7 +24,6 @@ public class MyTweet extends AppCompatActivity implements TextWatcher {
     private EditText tweetText;
     private TextView characterCount;
     private Tweet tweet;
-    public int count = 140;
     private Button date;
     private Button tweetButton;
 
@@ -54,15 +53,13 @@ public class MyTweet extends AppCompatActivity implements TextWatcher {
         MyTweetApp app = (MyTweetApp)getApplication();
 
         tweetText = (EditText)findViewById(R.id.tweetText);
-        //Tweet tweet = new Tweet(tweetText.getText().toString());
-
-        //startActivity(new Intent(this, MyTweet.class));
+        startActivity(new Intent(this, MyTweet.class));
     }
 
     public void updateControls(Tweet tweet)
     {
 
-        characterCount.setText(tweet.count);
+        //characterCount.setText(' '+count);
         date.setText(tweet.getDateString());
     }
 
@@ -79,10 +76,10 @@ public class MyTweet extends AppCompatActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
 
-        if (count >= 0){
+
             tweet.setTweet(s.toString());
-            count--;
-            Log.v("MyTweetApp", "character count: " + count);
-        }
+            characterCount.setText(String.valueOf(140 - s.length()));
+            Log.v("MyTweetApp", "character count: " + s.length() + " " + s.toString());
+
     }
 }

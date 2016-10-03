@@ -16,8 +16,8 @@ public class Tweet {
     private String tweet;
 
 
-
-    public Tweet(){//String tweetContent){//, int count){
+    public Tweet(){
+    //public Tweet(String tweetContent, int count){
         //tweetContent = this.tweetContent;
         //count = this.count;
         id = new Random().nextLong();
