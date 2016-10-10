@@ -19,7 +19,7 @@
         </activity>
         <activity
             android:name=".activites.TweetListActivity"
-            android:lable="MyTweet">
+            android:label="@string/app_name">
         </activity>
         <activity
             android:name=".activites.SignUp"
