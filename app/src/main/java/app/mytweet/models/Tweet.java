@@ -24,11 +24,11 @@ public class Tweet {
         date = new Date().getTime();
     }
 
-    public void setTweet(String tweet){
-        this.tweet = tweet;
+    public void setTweet(String tweetContent){
+        this.tweetContent = tweetContent;
     }
 
-    public String getTweet() { return tweet;}
+    public String getTweet() { return tweetContent;}
 
     public String getDateString() {
         return "Tweet Date:" + dateString();
