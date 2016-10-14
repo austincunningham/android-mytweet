@@ -66,6 +66,8 @@ public class MyTweet extends AppCompatActivity implements TextWatcher, View.OnCl
 
         tweetText = (EditText)findViewById(R.id.tweetText);
         startActivity(new Intent(this, MyTweet.class));
+        Toast toast = Toast.makeText(this, "Tweet saved", Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     public void updateControls(Tweet tweet)
