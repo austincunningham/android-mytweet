@@ -29,7 +29,7 @@ public class Login extends AppCompatActivity {
         EditText password = (EditText)findViewById(R.id.passwordLogin);
 
         if (app.validUser(email.getText().toString(),password.getText().toString())) {
-            startActivity(new Intent(this, MyTweet.class));
+            startActivity(new Intent(this, TweetListActivity.class));
         } else {
             Toast toast = Toast.makeText(this, "Login Pressed! Invalid Credentials", Toast.LENGTH_SHORT);
             toast.show();
