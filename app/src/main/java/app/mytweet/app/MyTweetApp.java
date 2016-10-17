@@ -8,6 +8,7 @@ import java.util.List;
 
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.User;
+import static app.mytweet.android.helpers.LogHelpers.info;
 
 /**
  * Created by austin on 28/09/2016.
@@ -27,6 +28,8 @@ public class MyTweetApp extends Application {
         super.onCreate();
         Log.v("MyTweetApp", "MyTweet App Started");
         portfolio = new Portfolio();
+        info(this, "MyRent app launched");
+
     }
 
     public boolean validUser (String email, String password){

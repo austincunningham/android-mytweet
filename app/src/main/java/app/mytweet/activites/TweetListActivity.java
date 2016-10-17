@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -24,7 +27,7 @@ import app.mytweet.models.Tweet;
 /**
  * Created by ictskills on 10/10/16.
  */
-public class TweetListActivity extends Activity implements AdapterView.OnItemClickListener {
+public class TweetListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private ListView listView;
     private Portfolio portfolio;
     private TweetAdapter adapter;
@@ -58,6 +61,14 @@ public class TweetListActivity extends Activity implements AdapterView.OnItemCli
     {
         super.onResume();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.tweetlist, menu);
+        return true;
     }
 }
 
