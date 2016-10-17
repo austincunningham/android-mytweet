@@ -5,8 +5,10 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import app.mytweet.models.Portfolio;
+import app.mytweet.models.PortfolioSerializer;
 import app.mytweet.models.User;
 import static app.mytweet.android.helpers.LogHelpers.info;
 
@@ -17,6 +19,8 @@ public class MyTweetApp extends Application {
 
     public List<User> users = new ArrayList<User>();
     public Portfolio portfolio;
+    private static final String FILENAME = "portfolio.json";
+
 
     public void newUser(User user){
         users.add(user);
@@ -26,8 +30,9 @@ public class MyTweetApp extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
-        Log.v("MyTweetApp", "MyTweet App Started");
-        portfolio = new Portfolio();
+        info("MyTweetApp", "MyTweet App Started");
+        PortfolioSerializer serializer = new PortfolioSerializer(this, FILENAME);
+        portfolio = new Portfolio(serializer);
         info(this, "MyRent app launched");
 
     }

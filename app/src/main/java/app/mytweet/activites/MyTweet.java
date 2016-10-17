@@ -98,8 +98,6 @@ public class MyTweet extends AppCompatActivity implements TextWatcher,
 
     public void updateControls(Tweet tweet)
     {
-
-        //characterCount.setText(' '+count);
         tweetText.setText(tweet.tweetContent);
         dateButton.setText(tweet.getDateString());
         selectContact.setOnClickListener(this);
@@ -148,13 +146,11 @@ public class MyTweet extends AppCompatActivity implements TextWatcher,
 
     }
     @Override
-    public void afterTextChanged(Editable s) {
-
-
-            tweet.setTweet(s.toString());
-            characterCount.setText(String.valueOf(140 - s.length()));
-            Log.v("MyTweetApp", "character count: " + s.length() + " " + s.toString());
-
+    public void afterTextChanged(Editable s)
+    {
+        tweet.setTweet(s.toString());
+        characterCount.setText(String.valueOf(140 - s.length()));
+        Log.v("MyTweetApp", "character count: " + s.length() + " " + s.toString());
     }
 
     @Override
@@ -167,5 +163,12 @@ public class MyTweet extends AppCompatActivity implements TextWatcher,
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        portfolio.saveTweets();
     }
 }
