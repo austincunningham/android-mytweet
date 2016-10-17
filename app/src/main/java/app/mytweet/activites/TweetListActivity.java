@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -23,6 +24,9 @@ import app.mytweet.R;
 import app.mytweet.app.MyTweetApp;
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.Tweet;
+
+import static  app.mytweet.android.helpers.IntentHelper.startActivityWithData;
+import static  app.mytweet.android.helpers.IntentHelper.startActivityWithDataForResult;
 
 /**
  * Created by ictskills on 10/10/16.
@@ -51,9 +55,7 @@ public class TweetListActivity extends AppCompatActivity implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Tweet tweet = adapter.getItem(position);
-        Intent intent = new Intent(this, MyTweet.class);
-        intent.putExtra("TWEET_ID", tweet.id);
-        startActivity(intent);
+        startActivityWithData(this, MyTweet.class, "TWEET_ID", tweet.id);
     }
 
     @Override
@@ -69,6 +71,18 @@ public class TweetListActivity extends AppCompatActivity implements AdapterView.
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.tweetlist, menu);
         return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.menu_item_new_tweet: Tweet tweet = new Tweet();
+                    portfolio.addTweet(tweet);
+                    startActivityWithDataForResult(this, MyTweet.class, "TWEET_ID", tweet.id, 0);
+                    return true;
+            default: return super.onOptionsItemSelected(item);
+        }
     }
 }
 

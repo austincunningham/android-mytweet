@@ -12,7 +12,6 @@ public class Portfolio {
 
     public Portfolio(){
         tweets = new ArrayList<Tweet>();
-        this.generateTestData();
     }
     public void addTweet(Tweet tweet){
         tweets.add(tweet);
@@ -27,13 +26,5 @@ public class Portfolio {
             }
         }
         return null;
-    }
-
-    private void generateTestData(){
-        for (int i = 0; i < 50; i++){
-            Tweet t = new Tweet();
-            t.tweetContent = "How many tweets? " + i;
-            tweets.add(t);
-        }
     }
 }
