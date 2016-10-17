@@ -1,4 +1,4 @@
-package app.mytweet.activites;
+package app.mytweet.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

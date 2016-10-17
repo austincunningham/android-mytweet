@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/twitter"
     android:scaleType="centerCrop"
-    tools:context=".activites.Welcome">
+    tools:context=".activities.Welcome">
 
     <TextView
         android:layout_width="match_parent"

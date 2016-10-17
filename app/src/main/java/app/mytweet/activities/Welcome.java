@@ -1,4 +1,4 @@
-package app.mytweet.activites;
+package app.mytweet.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import app.mytweet.R;
-import app.mytweet.activites.Login;
-import app.mytweet.activites.SignUp;
 
 public class Welcome extends AppCompatActivity {
 
