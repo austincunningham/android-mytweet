@@ -15,6 +15,7 @@ import android.widget.Toast;
 import app.mytweet.R;
 import app.mytweet.android.helpers.ContactHelper;
 import app.mytweet.app.MyTweetApp;
+import app.mytweet.models.Portfolio;
 import app.mytweet.models.Tweet;
 
 import static app.mytweet.android.helpers.ContactHelper.getContact;
@@ -36,6 +37,7 @@ public class MyTweet extends AppCompatActivity implements TextWatcher, View.OnCl
     private Button emailTweet;
     private static final int REQUEST_CONTACT = 1;
     private String emailAddress = "";
+    private Portfolio portfolio;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,18 @@ public class MyTweet extends AppCompatActivity implements TextWatcher, View.OnCl
         if (tweet != null){
             updateControls(tweet);
         }
+
+        MyTweetApp app = (MyTweetApp)getApplication();
+        portfolio = app.portfolio;
+
+        Long tweId = (Long) getIntent().getExtras().getSerializable("TWEET_ID");
+        tweet = portfolio.getTweet(tweId);
+
+        if (tweet != null)
+        {
+            updateControls(tweet);
+        }
+
     }
 
     public void tweetPressed (View view)
@@ -74,6 +88,7 @@ public class MyTweet extends AppCompatActivity implements TextWatcher, View.OnCl
     {
 
         //characterCount.setText(' '+count);
+        tweetText.setText(tweet.tweetContent);
         date.setText(tweet.getDateString());
         selectContact.setOnClickListener(this);
         emailTweet.setOnClickListener(this);

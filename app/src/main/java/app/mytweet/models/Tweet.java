@@ -18,8 +18,7 @@ public class Tweet {
 
     public Tweet(){
     //public Tweet(String tweetContent, int count){
-        //tweetContent = this.tweetContent;
-        //count = this.count;
+        tweetContent = "Whats on your mind";
         id = new Random().nextLong();
         date = new Date().getTime();
     }

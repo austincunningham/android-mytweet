@@ -2,10 +2,13 @@ package app.mytweet.activites;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -21,7 +24,7 @@ import app.mytweet.models.Tweet;
 /**
  * Created by ictskills on 10/10/16.
  */
-public class TweetListActivity extends Activity {
+public class TweetListActivity extends Activity implements AdapterView.OnItemClickListener {
     private ListView listView;
     private Portfolio portfolio;
     private TweetAdapter adapter;
@@ -31,11 +34,30 @@ public class TweetListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
         setContentView(R.layout.activity_tweetlist);
+
+        listView = (ListView)findViewById(R.id.tweetList);
+
         MyTweetApp app = (MyTweetApp)getApplication();
         portfolio = app.portfolio;
 
         adapter = new TweetAdapter(this, portfolio.tweets);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Tweet tweet = adapter.getItem(position);
+        Intent intent = new Intent(this, MyTweet.class);
+        intent.putExtra("TWEET_ID", tweet.id);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }
 
