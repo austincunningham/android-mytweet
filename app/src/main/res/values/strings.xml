@@ -25,5 +25,6 @@
     <string name="registration_date"> </string>
 
     <string name="tweet_report_subject">The following is a tweet</string>
+    <string name="delete_tweet">Delete Tweet</string>
 
 </resources>

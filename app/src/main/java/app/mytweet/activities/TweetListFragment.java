@@ -1,19 +1,24 @@
 package app.mytweet.activities;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.ActionMode;
+import android.widget.AbsListView;
+import android.widget.ListView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.CheckBox;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 
@@ -21,7 +26,7 @@ import app.mytweet.R;
 import app.mytweet.app.MyTweetApp;
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.Tweet;
-import android.support.v4.app.ListFragment;
+
 
 import static  app.mytweet.android.helpers.IntentHelper.startActivityWithData;
 import static  app.mytweet.android.helpers.IntentHelper.startActivityWithDataForResult;
@@ -29,7 +34,8 @@ import static  app.mytweet.android.helpers.IntentHelper.startActivityWithDataFor
 /**
  * Created by ictskills on 10/10/16.
  */
-public class TweetListFragment extends ListFragment implements AdapterView.OnItemClickListener {
+
+public class TweetListFragment extends ListFragment implements OnItemClickListener ,AbsListView.MultiChoiceModeListener{
     private ArrayList<Tweet> tweets;
     private ListView listView;
     private Portfolio portfolio;
@@ -46,6 +52,9 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
         portfolio = app.portfolio;
         adapter = new TweetAdapter(getActivity(), portfolio.tweets);
         setListAdapter(adapter);
+
+
+
 
         /*setTitle(R.string.app_name);
         setContentView(R.layout.activity_tweetlist);
@@ -93,6 +102,10 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, parent, savedInstanceState);
+
+        listView = (ListView)v.findViewById(android.R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(this);
         return v;
     }
 
@@ -108,6 +121,55 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
                     return true;
             default: return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        MenuInflater inflater = actionMode.getMenuInflater();
+        inflater.inflate(R.menu.tweet_list_context, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        switch (menuItem.getItemId())
+        {
+            case R.id.menu_item_delete_tweet:
+                deleteTweet(actionMode);
+                return true;
+            default:
+                return false;
+        }
+
+    }
+
+    private void deleteTweet(ActionMode actionMode)
+    {
+        for (int i = adapter.getCount() - 1; i >= 0; i--)
+        {
+            if (listView.isItemChecked(i))
+            {
+                portfolio.deleteTweet(adapter.getItem(i));
+            }
+        }
+        actionMode.finish();
+        adapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+
     }
 }
 
