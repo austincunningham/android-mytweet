@@ -23,8 +23,17 @@ public class Tweet {
 
     public Tweet(){
         tweetContent = "";
-        id = new Random().nextLong();
+        //id = new Random().nextLong();
+        id = unsignedLong();
         date = new Date().getTime();
+    }
+
+    public Long unsignedLong(){
+        long rndVal = 0;
+        do{
+            rndVal = new Random().nextLong();
+        } while (rndVal <= 0);
+        return rndVal;
     }
 
     public Tweet(JSONObject json) throws JSONException
