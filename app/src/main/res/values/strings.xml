@@ -27,4 +27,13 @@
     <string name="tweet_report_subject">The following is a tweet</string>
     <string name="delete_tweet">Delete Tweet</string>
 
+    <string name="username_summary">Please enter your user name</string>
+    <string name="username">Username</string>
+    <string name="password_summary">You may set your password here</string>
+    <string name="password">Password</string>
+    <string name="nmr_tweets">Configure Downloads</string>
+    <string name="nmr_tweets_summary">How many Tweets to store locally?</string>
+    <string name="set_refresh_interval">Refresh</string>
+    <string name="set_refresh_interval_summary">Frequency of cloud updates (minutes)</string>
+    <string name="action_settings">Settings</string>
 </resources>

@@ -24,6 +24,7 @@ import app.mytweet.R;
 import app.mytweet.app.MyTweetApp;
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.Tweet;
+import app.mytweet.settings.SettingsActivity;
 
 
 import static  app.mytweet.android.helpers.IntentHelper.startActivityWithData;
@@ -111,11 +112,14 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
         switch (item.getItemId())
         {
             case R.id.menu_item_new_tweet: Tweet tweet = new Tweet();
-                    portfolio.addTweet(tweet);
-                    Intent i = new Intent(getActivity(), MyTweetPagerActivity.class);
-                    i.putExtra(MyTweetFragment.EXTRA_TWEET_ID, tweet.id);
-                    startActivityForResult(i, 0);
-                    return true;
+                portfolio.addTweet(tweet);
+                Intent i = new Intent(getActivity(), MyTweetPagerActivity.class);
+                i.putExtra(MyTweetFragment.EXTRA_TWEET_ID, tweet.id);
+                startActivityForResult(i, 0);
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
             default: return super.onOptionsItemSelected(item);
         }
     }
