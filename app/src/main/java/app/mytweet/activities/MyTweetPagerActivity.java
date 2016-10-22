@@ -6,9 +6,12 @@ package app.mytweet.activities;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+//import android.support.v4.app.Fragment;
+//import android.support.v4.app.FragmentManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentStatePagerAdapter;
+//import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
@@ -33,7 +36,8 @@ public class MyTweetPagerActivity extends AppCompatActivity
         viewPager.setId(R.id.viewPager);
         setContentView(viewPager);
         setTweetList();
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tweets);
+        //pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tweets);
+        pagerAdapter = new PagerAdapter(getFragmentManager(), tweets);
         viewPager.setAdapter(pagerAdapter);
         setCurrentItem();
     }

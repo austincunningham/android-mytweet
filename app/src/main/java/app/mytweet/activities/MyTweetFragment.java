@@ -3,7 +3,10 @@ package app.mytweet.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+//import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -39,6 +42,11 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
+import android.support.v13.app.FragmentCompat;
+import android.support.v4.content.ContextCompat;
+import android.Manifest;
+import android.content.pm.PackageManager;
+
 /**
  * Created by austin on 28/09/2016.
  */
@@ -56,6 +64,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     private static final int REQUEST_CONTACT = 1;
     private String emailAddress = "";
     private Portfolio portfolio;
+    Intent data;
 
     MyTweetApp app;
     public static final String EXTRA_TWEET_ID = "mytweet.TWEET_ID";
@@ -149,9 +158,19 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     {
         switch (v.getId())
         {
-            case R.id.selectContact : selectContact(getActivity(), REQUEST_CONTACT);
+            /*case R.id.selectContact :
+                selectContact(getActivity(), REQUEST_CONTACT);
+                break;*/
+            case R.id.selectContact :
+                Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(i,REQUEST_CONTACT);
                 break;
-            case R.id.emailTweet : sendEmail(getActivity(), emailAddress, getString(R.string.tweet_report_subject), tweet.tweetContent);
+            /*case R.id.emailTweet :
+                sendEmail(getActivity(), emailAddress, getString(R.string.tweet_report_subject), tweet.tweetContent);
+                break;*/
+            case R.id.emailTweet :
+                if (emailAddress == null)emailAddress="";//guard against null pointer
+                sendEmail(getActivity(),emailAddress, getString(R.string.tweet_report_subject), tweet.tweetContent);
                 break;
             case R.id.registration_date : Calendar c = Calendar.getInstance();
                 DatePickerDialog dpd = new DatePickerDialog (getActivity(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
@@ -163,18 +182,32 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode != Activity.RESULT_OK){
+        switch (requestCode) {
+            case REQUEST_CONTACT:
+                this.data = data;
+                checkContactsReadPermission();
+                break;
+        }
+    }
+
+    private void readContact() {
+        String name = ContactHelper.getContact(getActivity(), data);
+        emailAddress = ContactHelper.getEmail(getActivity(), data);
+        selectContact.setText(name + " : " + emailAddress);
+        //residence.tenant = name;
+    }
+        /*if (requestCode != Activity.RESULT_OK){
             return;
         } else
         if(requestCode == REQUEST_CONTACT)
         {
-                checkContactsReadPermission();
-                String name = ContactHelper.getContact(getActivity(), data);
-                emailAddress = ContactHelper.getEmail(getActivity(), data);
-                selectContact.setText(name + " : " + emailAddress);
-                //residence.tenant = name;
-        }
-    }
+            checkContactsReadPermission();
+            String name = ContactHelper.getContact(getActivity(), data);
+            emailAddress = ContactHelper.getEmail(getActivity(), data);
+            selectContact.setText(name + " : " + emailAddress);
+            //residence.tenant = name;
+        }*/
+
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -224,7 +257,35 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         return super.onOptionsItemSelected(item);
     }
 
-    public void checkContactsReadPermission() {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CONTACT: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    readContact();
+                }
+                break;
+            }
+        }
+    }
+    private void checkContactsReadPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+
+            readContact();
+        }
+        else {
+            // Invoke callback to request user-granted permission
+            FragmentCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.READ_CONTACTS},
+                    REQUEST_CONTACT);
+        }
+    }
+    /*public void checkContactsReadPermission() {
         // Here, this is the current activity
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.READ_CONTACTS)
@@ -247,5 +308,5 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                 // The callback method, onRequestPermissionsResult, gets the result of the request.
             }
         }
-    }
+    }*/
 }
