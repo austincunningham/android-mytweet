@@ -12,8 +12,6 @@ import android.widget.ArrayAdapter;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.CheckBox;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +27,6 @@ import app.mytweet.models.Tweet;
 
 
 import static  app.mytweet.android.helpers.IntentHelper.startActivityWithData;
-import static  app.mytweet.android.helpers.IntentHelper.startActivityWithDataForResult;
 
 /**
  * Created by ictskills on 10/10/16.
@@ -77,7 +74,7 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Tweet twe = ((TweetAdapter) getListAdapter()).getItem(position);
-        Intent i = new Intent(getActivity(), MyTweetActivity.class);
+        Intent i = new Intent(getActivity(), MyTweetPagerActivity.class);
         i.putExtra(MyTweetFragment.EXTRA_TWEET_ID, twe.id);
         startActivityForResult(i, 0);
     }
@@ -115,7 +112,7 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
         {
             case R.id.menu_item_new_tweet: Tweet tweet = new Tweet();
                     portfolio.addTweet(tweet);
-                    Intent i = new Intent(getActivity(), MyTweetActivity.class);
+                    Intent i = new Intent(getActivity(), MyTweetPagerActivity.class);
                     i.putExtra(MyTweetFragment.EXTRA_TWEET_ID, tweet.id);
                     startActivityForResult(i, 0);
                     return true;

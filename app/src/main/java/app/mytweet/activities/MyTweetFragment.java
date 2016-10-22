@@ -65,7 +65,8 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        Long tweId = (Long)getActivity().getIntent().getSerializableExtra(EXTRA_TWEET_ID);
+        //Long tweId = (Long)getActivity().getIntent().getSerializableExtra(EXTRA_TWEET_ID);
+        Long tweId = (Long)getArguments().getSerializable(EXTRA_TWEET_ID);
 
         app = MyTweetApp.getApp();
         portfolio = app.portfolio;
@@ -102,7 +103,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         super.onCreateView(inflater, parent, savedInstanceState);
         View v = inflater.inflate(R.layout.activity_mytweet, parent, false);
 
-        //MyTweetActivity myTweetActivity = (MyTweetActivity)getActivity();
+        //MyTweetPagerActivity myTweetActivity = (MyTweetPagerActivity)getActivity();
         //myTweetActivity.actionBar.setDisplayHomeAsUpEnabled(true);
 
         addListeners(v);
