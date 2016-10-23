@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-//import android.support.v4.app.Fragment;
 import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextWatcher;
@@ -97,10 +96,10 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         tweetText.addTextChangedListener(this);
         dateButton.setOnClickListener(this);
         emailTweet.setOnClickListener(this);
-        //MyTweetApp app = (MyTweetApp)getApplication();
-        //portfolio = app.portfolio;
-        //Long tweId = (Long) getIntent().getExtras().getSerializable("TWEET_ID");
-        //tweet = portfolio.getTweet(tweId);
+        MyTweetApp app = (MyTweetApp)getApplication();
+        portfolio = app.portfolio;
+        Long tweId = (Long) getIntent().getExtras().getSerializable("TWEET_ID");
+        tweet = portfolio.getTweet(tweId);
         if (tweet != null)
         {
             updateControls(tweet);
@@ -111,9 +110,6 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
         super.onCreateView(inflater, parent, savedInstanceState);
         View v = inflater.inflate(R.layout.activity_mytweet, parent, false);
-
-        //MyTweetPagerActivity myTweetActivity = (MyTweetPagerActivity)getActivity();
-        //myTweetActivity.actionBar.setDisplayHomeAsUpEnabled(true);
 
         addListeners(v);
         updateControls(tweet);
@@ -131,20 +127,10 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         tweetText.addTextChangedListener(this);
         dateButton.setOnClickListener(this);
         emailTweet.setOnClickListener(this);
+        tweetButton.setOnClickListener(this);
         selectContact.setOnClickListener(this);
     }
-
-
-
-    public void tweetPressed (View view)
-    {
-        MyTweetApp app = MyTweetApp.getApp();
-
-        tweetText = (EditText)view.findViewById(R.id.tweetText);
-        startActivity(new Intent(getActivity(), MyTweetFragment.class));
-        Toast toast = Toast.makeText(getActivity(), "Tweet saved", Toast.LENGTH_SHORT);
-        toast.show();
-    }
+    
 
     public void updateControls(Tweet tweet)
     {
@@ -158,24 +144,26 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     {
         switch (v.getId())
         {
-            /*case R.id.selectContact :
-                selectContact(getActivity(), REQUEST_CONTACT);
-                break;*/
             case R.id.selectContact :
                 Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
                 startActivityForResult(i,REQUEST_CONTACT);
                 break;
-            /*case R.id.emailTweet :
-                sendEmail(getActivity(), emailAddress, getString(R.string.tweet_report_subject), tweet.tweetContent);
-                break;*/
             case R.id.emailTweet :
                 if (emailAddress == null)emailAddress="";//guard against null pointer
                 sendEmail(getActivity(),emailAddress, getString(R.string.tweet_report_subject), tweet.tweetContent);
                 break;
-            case R.id.registration_date : Calendar c = Calendar.getInstance();
+            case R.id.registration_date :
+                Calendar c = Calendar.getInstance();
                 DatePickerDialog dpd = new DatePickerDialog (getActivity(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
                 dpd.show();
                 break;
+            case R.id.tweetButton :
+                portfolio.saveTweets();
+                Toast toast = Toast.makeText(getActivity(), "Tweet saved", Toast.LENGTH_SHORT);
+                toast.show();
+                startActivity(new Intent(getActivity(), TweetListActivity.class));
+                break;
+
         }
     }
 
@@ -194,19 +182,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         String name = ContactHelper.getContact(getActivity(), data);
         emailAddress = ContactHelper.getEmail(getActivity(), data);
         selectContact.setText(name + " : " + emailAddress);
-        //residence.tenant = name;
     }
-        /*if (requestCode != Activity.RESULT_OK){
-            return;
-        } else
-        if(requestCode == REQUEST_CONTACT)
-        {
-            checkContactsReadPermission();
-            String name = ContactHelper.getContact(getActivity(), data);
-            emailAddress = ContactHelper.getEmail(getActivity(), data);
-            selectContact.setText(name + " : " + emailAddress);
-            //residence.tenant = name;
-        }*/
 
 
     @Override
@@ -243,7 +219,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     public void onPause()
     {
         super.onPause();
-        portfolio.saveTweets();
+        //portfolio.saveTweets();
     }
 
     @Override
