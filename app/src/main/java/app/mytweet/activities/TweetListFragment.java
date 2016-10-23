@@ -120,6 +120,10 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
             case R.id.action_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
+            case R.id.action_clear:
+                portfolio.deleteAllTweet();
+                startActivity(new Intent(getActivity(), TweetListActivity.class));
+                return true;
             default: return super.onOptionsItemSelected(item);
         }
     }

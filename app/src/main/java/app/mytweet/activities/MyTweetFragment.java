@@ -130,7 +130,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         tweetButton.setOnClickListener(this);
         selectContact.setOnClickListener(this);
     }
-    
+
 
     public void updateControls(Tweet tweet)
     {
@@ -198,7 +198,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     @Override
     public void afterTextChanged(Editable s)
     {
-        tweet.setTweet(s.toString());
+        tweet.setTweet(s.toString());//this sets the tweetcontent and appears to save it
         characterCount.setText(String.valueOf(140 - s.length()));
         Log.v("MyTweetApp", "character count: " + s.length() + " " + s.toString());
     }
@@ -219,7 +219,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     public void onPause()
     {
         super.onPause();
-        //portfolio.saveTweets();
+        portfolio.saveTweets();
     }
 
     @Override
@@ -228,7 +228,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         switch (item.getItemId())
         {
             case android.R.id.home: navigateUp(getActivity());
-                return true;
+                return false;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -261,28 +261,4 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                     REQUEST_CONTACT);
         }
     }
-    /*public void checkContactsReadPermission() {
-        // Here, this is the current activity
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we checkContactsReadPermissione show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.READ_CONTACTS)) {
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            }
-            else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        REQUEST_CONTACT);
-                // REQUEST_CONTACT is an app-defined int constant.
-                // The callback method, onRequestPermissionsResult, gets the result of the request.
-            }
-        }
-    }*/
 }

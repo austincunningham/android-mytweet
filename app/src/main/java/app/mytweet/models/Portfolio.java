@@ -62,4 +62,11 @@ public class Portfolio {
         tweets.remove(tweet);
         saveTweets();
     }
+
+    public void deleteAllTweet()
+    {
+        tweets.clear();
+        saveTweets();
+
+    }
 }
