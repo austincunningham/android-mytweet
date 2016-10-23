@@ -198,8 +198,8 @@ class TweetAdapter extends ArrayAdapter<Tweet>{
         TextView tweetContent =(TextView)convertView.findViewById(R.id.tweet_list_item_tweetContent);
         tweetContent.setText(twe.tweetContent);
 
-        /*TextView dateTextView = (TextView) convertView.findViewById(R.id.tweet_list_item_dateTextView);
-        dateTextView.setText(twe.getDateString());*/
+        TextView dateTextView = (TextView) convertView.findViewById(R.id.tweet_list_item_dateTextView);
+        dateTextView.setText(twe.getDateString());
 
         return convertView;
     }
