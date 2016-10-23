@@ -64,6 +64,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     private String emailAddress = "";
     private Portfolio portfolio;
     Intent data;
+    String tweetContent;
 
     MyTweetApp app;
     public static final String EXTRA_TWEET_ID = "mytweet.TWEET_ID";
@@ -158,6 +159,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                 dpd.show();
                 break;
             case R.id.tweetButton :
+                tweet.setTweet(tweetContent);
                 portfolio.saveTweets();
                 Toast toast = Toast.makeText(getActivity(), "Tweet saved", Toast.LENGTH_SHORT);
                 toast.show();
@@ -198,7 +200,8 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     @Override
     public void afterTextChanged(Editable s)
     {
-        tweet.setTweet(s.toString());//this sets the tweetcontent and appears to save it
+        tweetContent= s.toString();
+        //tweet.setTweet(s.toString());//this sets the tweetcontent and appears to save it
         characterCount.setText(String.valueOf(140 - s.length()));
         Log.v("MyTweetApp", "character count: " + s.length() + " " + s.toString());
     }

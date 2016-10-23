@@ -198,10 +198,7 @@ class TweetAdapter extends ArrayAdapter<Tweet>{
         tweetContent.setText(twe.tweetContent);
 
         /*TextView dateTextView = (TextView) convertView.findViewById(R.id.tweet_list_item_dateTextView);
-        dateTextView.setText(twe.getDateString());
-
-        CheckBox rentedCheckBox = (CheckBox) convertView.findViewById(R.id.tweet_list_item_istweeted);
-        rentedCheckBox.setChecked(twe.tweet);*/
+        dateTextView.setText(twe.getDateString());*/
 
         return convertView;
     }
