@@ -239,8 +239,12 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     @Override
     public void onPause()
     {
+        if (tweet.tweetContent == "")
+        {
+            portfolio.deleteTweet(tweet);
+        }
         super.onPause();
-        portfolio.saveTweets();
+        //portfolio.saveTweets();
     }
 
     @Override
@@ -248,8 +252,13 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     {
         switch (item.getItemId())
         {
-            case android.R.id.home: navigateUp(getActivity());
-                return false;
+            case android.R.id.home:
+                if (tweet.tweetContent == "")
+                {
+                    portfolio.deleteTweet(tweet);
+                }
+                navigateUp(getActivity());
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
