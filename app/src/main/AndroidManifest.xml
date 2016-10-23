@@ -41,7 +41,7 @@
             android:label="@string/action_settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.TweetListActivity"/>
+                android:value="app.mytweet.activities.TweetListActivity"/>
         </activity>
     </application>
 

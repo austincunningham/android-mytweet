@@ -12,7 +12,7 @@
         android:inputType="textPassword"/>
 
     <EditTextPreference
-        android:key="nmr_residences"
+        android:key="nmr_tweets"
         android:summary="@string/nmr_tweets_summary"
         android:title="@string/nmr_tweets"
         android:inputType="text"/>
