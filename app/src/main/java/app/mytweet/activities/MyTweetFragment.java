@@ -65,6 +65,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     private Portfolio portfolio;
     Intent data;
     String tweetContent;
+    boolean readOnly = false;
 
     MyTweetApp app;
     public static final String EXTRA_TWEET_ID = "mytweet.TWEET_ID";
@@ -133,11 +134,16 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     }
 
 
-    public void updateControls(Tweet tweet)
+    public boolean updateControls(Tweet tweet)
     {
-        tweetText.setText(tweet.tweetContent);
         dateButton.setText(tweet.getDateString());
-
+        tweetText.setText(tweet.tweetContent);
+        if (tweet.tweetContent != "") {
+            tweetText.setEnabled(false);
+            readOnly = true;
+            return readOnly;
+        }
+        return false;
     }
 
     @Override
@@ -159,13 +165,24 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                 dpd.show();
                 break;
             case R.id.tweetButton :
-                tweet.setTweet(tweetContent);
-                portfolio.saveTweets();
-                Toast toast = Toast.makeText(getActivity(), "Tweet saved", Toast.LENGTH_SHORT);
-                toast.show();
-                startActivity(new Intent(getActivity(), TweetListActivity.class));
-                break;
-
+                if (tweetContent.length() > 140)
+                {
+                    Toast toast = Toast.makeText(getActivity(), "Character limit exceeded", Toast.LENGTH_SHORT);
+                    toast.show();
+                    break;
+                }else if (readOnly){
+                    Toast toast = Toast.makeText(getActivity(), "Tweet is read only", Toast.LENGTH_SHORT);
+                    toast.show();
+                    break;
+                }else
+                {
+                    tweet.setTweet(tweetContent);
+                    portfolio.saveTweets();
+                    Toast toast = Toast.makeText(getActivity(), "Tweet saved", Toast.LENGTH_SHORT);
+                    toast.show();
+                    startActivity(new Intent(getActivity(), TweetListActivity.class));
+                    break;
+                }
         }
     }
 
@@ -204,6 +221,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         //tweet.setTweet(s.toString());//this sets the tweetcontent and appears to save it
         characterCount.setText(String.valueOf(140 - s.length()));
         Log.v("MyTweetApp", "character count: " + s.length() + " " + s.toString());
+
     }
 
     @Override

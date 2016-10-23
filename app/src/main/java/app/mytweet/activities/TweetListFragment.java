@@ -111,7 +111,8 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
     {
         switch (item.getItemId())
         {
-            case R.id.menu_item_new_tweet: Tweet tweet = new Tweet();
+            case R.id.menu_item_new_tweet:
+                Tweet tweet = new Tweet();
                 portfolio.addTweet(tweet);
                 Intent i = new Intent(getActivity(), MyTweetPagerActivity.class);
                 i.putExtra(MyTweetFragment.EXTRA_TWEET_ID, tweet.id);
