@@ -177,7 +177,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                 }else
                 {
                     tweet.setTweet(tweetContent);
-                    portfolio.saveTweets();
+                    portfolio.updateTweet(tweet);
                     Toast toast = Toast.makeText(getActivity(), "Tweet saved", Toast.LENGTH_SHORT);
                     toast.show();
                     startActivity(new Intent(getActivity(), TweetListActivity.class));
