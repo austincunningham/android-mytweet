@@ -1,6 +1,5 @@
 package app.mytweet.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -26,9 +25,12 @@ import app.mytweet.android.helpers.ContactHelper;
 import app.mytweet.app.MyTweetApp;
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.Tweet;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 import static app.mytweet.android.helpers.ContactHelper.sendEmail;
-import static app.mytweet.android.helpers.IntentHelper.selectContact;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -39,12 +41,8 @@ import android.app.DatePickerDialog;
 import static app.mytweet.android.helpers.IntentHelper.navigateUp;
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
 
 import android.support.v13.app.FragmentCompat;
-import android.support.v4.content.ContextCompat;
-import android.Manifest;
-import android.content.pm.PackageManager;
 
 /**
  * Created by austin on 28/09/2016.
@@ -137,8 +135,8 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     public boolean updateControls(Tweet tweet)
     {
         dateButton.setText(tweet.getDateString());
-        tweetText.setText(tweet.tweetContent);
-        if (tweet.tweetContent != "") {
+        tweetText.setText(tweet.message);
+        if (tweet.message != "") {
             tweetText.setEnabled(false);
             readOnly = true;
             return readOnly;
@@ -157,7 +155,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                 break;
             case R.id.emailTweet :
                 if (emailAddress == null)emailAddress="";//guard against null pointer
-                sendEmail(getActivity(),emailAddress, getString(R.string.tweet_report_subject), tweet.tweetContent);
+                sendEmail(getActivity(),emailAddress, getString(R.string.tweet_report_subject), tweet.message);
                 break;
             case R.id.registration_date :
                 Calendar c = Calendar.getInstance();
@@ -178,6 +176,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                 {
                     tweet.setTweet(tweetContent);
                     portfolio.updateTweet(tweet);
+                    createTweet(tweet, tweetContent);
                     Toast toast = Toast.makeText(getActivity(), "Tweet saved", Toast.LENGTH_SHORT);
                     toast.show();
                     startActivity(new Intent(getActivity(), TweetListActivity.class));
@@ -239,7 +238,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     @Override
     public void onPause()
     {
-        if (tweet.tweetContent == "")
+        if (tweet.message == "")
         {
             portfolio.deleteTweet(tweet);
         }
@@ -253,7 +252,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         switch (item.getItemId())
         {
             case android.R.id.home:
-                if (tweet.tweetContent == "")
+                if (tweet.message == "")
                 {
                     portfolio.deleteTweet(tweet);
                 }
@@ -290,5 +289,30 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                     new String[]{Manifest.permission.READ_CONTACTS},
                     REQUEST_CONTACT);
         }
+    }
+
+    public void createTweet(Tweet twe, String message){
+        twe.tweeter = app.currentUser._id;
+        twe.message = message;
+        twe.name = app.currentUser.email;
+        Call<Tweet> call = app.myTweetService.newTweetByUserId( app.currentUser._id ,twe);
+        call.enqueue(new Callback<Tweet>(){
+            @Override
+            public void onResponse(Response<Tweet> response, Retrofit retrofit) {
+                Tweet returnedTweet = response.body();
+                if(returnedTweet != null){
+                    Toast.makeText(getActivity(), "Tweet created successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Tweet null object returned due to incorrectly configured " +
+                            "client", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(getActivity(), "Failed to create Tweet due to unknown network issue",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

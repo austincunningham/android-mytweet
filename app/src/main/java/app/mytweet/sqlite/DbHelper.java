@@ -11,7 +11,6 @@ import android.util.Log;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import app.mytweet.models.Tweet;
@@ -53,7 +52,7 @@ public class DbHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(PRIMARY_KEY, tweet.id);
-        values.put(TWEETCONTENT, tweet.tweetContent);
+        values.put(TWEETCONTENT, tweet.message);
         values.put(DATE, tweet.date);
 
 
@@ -87,7 +86,7 @@ public class DbHelper extends SQLiteOpenHelper
                 int columnIndex = 0;
                 cursor.moveToFirst();
                 tweet.id = cursor.getLong(columnIndex++);
-                tweet.tweetContent = cursor.getString(columnIndex++);
+                tweet.message = cursor.getString(columnIndex++);
                 tweet.date = Long.parseLong(cursor.getString(columnIndex++));
             }
         }
@@ -122,7 +121,7 @@ public class DbHelper extends SQLiteOpenHelper
             do {
                 Tweet tweet = new Tweet();
                 tweet.id = cursor.getLong(columnIndex++);
-                tweet.tweetContent = cursor.getString(columnIndex++);
+                tweet.message = cursor.getString(columnIndex++);
                 tweet.date = Long.parseLong(cursor.getString(columnIndex++));
                 columnIndex = 0;
 
@@ -168,7 +167,7 @@ public class DbHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         try {
             ContentValues values = new ContentValues();
-            values.put(TWEETCONTENT, tweet.tweetContent);
+            values.put(TWEETCONTENT, tweet.message);
             values.put(DATE, tweet.date);
             db.update("tableTweets", values, "id" + "=?", new String[]{tweet.id + ""});
         }

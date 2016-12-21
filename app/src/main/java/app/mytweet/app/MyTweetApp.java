@@ -3,11 +3,21 @@ package app.mytweet.app;
 import android.app.Application;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.User;
+import app.mytweet.retrofit.MyTweetServiceProxy;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
+
 import static app.mytweet.android.helpers.LogHelpers.info;
 
 /**
@@ -15,10 +25,15 @@ import static app.mytweet.android.helpers.LogHelpers.info;
  */
 public class MyTweetApp extends Application {
 
+    //public String service_url = "http://35.166.135.79:4000";
+    public String service_url = "http://10.0.2.2:4000";   // Standard Emulator IP Address
+    public MyTweetServiceProxy myTweetService;
+
     public List<User> users = new ArrayList<User>();
     public Portfolio portfolio;
     //private static final String FILENAME = "portfolio.json";
     protected static MyTweetApp app;
+    public User currentUser;
 
 
     public void newUser(User user){
@@ -36,11 +51,31 @@ public class MyTweetApp extends Application {
         info(this, "MyRent app launched");
         app = this;
 
+        Gson gson = new GsonBuilder().create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(service_url)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        myTweetService = retrofit.create(MyTweetServiceProxy.class);
+
     }
 
     public boolean validUser (String email, String password){
         for(User user : users){
             if (user.email.equals(email) && user.password.equals(password)){
+                Call<User> call = app.myTweetService.findUserByEmail(user.email);
+                call.enqueue(new Callback<User>() {
+
+                    @Override
+                    public void onResponse(Response<User> response, Retrofit retrofit) {
+                        app.currentUser = response.body();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                    }
+                });
                 return true;
             } else {
                 return false;
