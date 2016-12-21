@@ -174,35 +174,16 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
                 final Tweet tweet = adapter.getItem(i);
                 //portfolio.deleteTweet(adapter.getItem(i));
                 portfolio.deleteTweet(tweet);
-
-                Call<List<Tweet>> call1 = app.myTweetService.getAllTweets();
-                call1.enqueue(new Callback<List<Tweet>>(){
-
+                Call<Long> call = app.myTweetService.deleteTweetByUuid(tweet.id);
+                call.enqueue(new Callback<Long>() {
                     @Override
-                    public void onResponse(Response<List<Tweet>> response, Retrofit retrofit) {
-                        Toast.makeText(getActivity(), "retrieve tweet list", Toast.LENGTH_SHORT).show();
-                        List<Tweet> tweets = response.body();
-                        for(Tweet i : tweets){
-                            if(i.message == tweet.message && i.date == tweet.date){
-                                Call<String> call2 = app.myTweetService.deleteTweetById(i._id);
-                                call2.enqueue(new Callback<String>() {
-                                    @Override
-                                    public void onResponse(Response<String> response, Retrofit retrofit) {
-                                        Toast.makeText(getActivity(), "deleted tweet", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onFailure(Throwable t) {
-                                        Toast.makeText(getActivity(), "failed to delete tweet", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
+                    public void onResponse(Response<Long> response, Retrofit retrofit) {
+                        Toast.makeText(getActivity(), "Tweet deleted successfully", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
-                        Toast.makeText(getActivity(), "Failed to retrieve tweet list", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Tweet delete unsuccessfully", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
