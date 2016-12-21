@@ -52,13 +52,10 @@ public interface MyTweetServiceProxy {
     Call<List<Tweet>> getTweetsByUserEmail(@Path("email") String email);
 
     @DELETE("/api/tweets/{id}")
-    Call<Tweet> deleteTweetById(@Path("id") String id);
+    Call<String> deleteTweetById(@Path("id") String id);
 
     @DELETE("/api/tweets/email/{email}")
-    Call<Tweet> deleteTweetByUserEmail(@Path("email") String id);
-
-    //@GET("/api/tweetcount/") not needed as only for admin page
-    //Call<List<Tweet>>
+    Call<String> deleteTweetByUserEmail(@Path("email") String id);
 
     @DELETE("/api/tweets")
     Call<List<Tweet>> deleteAllTweets();
