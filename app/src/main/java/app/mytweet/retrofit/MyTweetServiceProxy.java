@@ -45,8 +45,8 @@ public interface MyTweetServiceProxy {
     //@GET("/api/tweet/{id}")
     //Call<Tweet> getTweetById(@Path("id") String id);
 
-    //@GET("/api/tweets/{id}")
-    //Call<List<Tweet>> getTweetsByUserId(@Path("id") String id);
+    @GET("/api/tweets/{id}")
+    Call<List<Tweet>> getTweetsByUserId(@Path("id") String id);
 
     //@GET("/api/tweets/email/{email}")
     //Call<List<Tweet>> getTweetsByUserEmail(@Path("email") String email);

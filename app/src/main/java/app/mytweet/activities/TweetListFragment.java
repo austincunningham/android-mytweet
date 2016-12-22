@@ -142,6 +142,7 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
         }
     }
 
+    //Some unknown reason this doesn't work.
     public void retrieveTweets() {
         RetrieveTweets retrieveTweets = new RetrieveTweets();
         Call<List<Tweet>> call = app.myTweetService.getAllTweets();
@@ -164,14 +165,15 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
         }
     }
 
-    //test if retrieveing users works using the same method as tweets it does
+    //test if retrieving users works using the same method as tweets ,it does
+    //wasted enough time on this but may not be able to continue without it
     public void retrieveUsers() {
         Call<List<User>> call = app.myTweetService.getAllUsers();
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Response<List<User>> response, Retrofit retrofit) {
-                List<User> listTwe = response.body();
-                Toast.makeText(getActivity(), "Retrieving "+listTwe.size()+" Users", Toast.LENGTH_SHORT).show();
+                List<User> listUsr = response.body();
+                Toast.makeText(getActivity(), "Retrieving "+listUsr.size()+" Users", Toast.LENGTH_SHORT).show();
                 //portfolio.refreshTweet(listTwe);
                 //((TweetAdapter)getListAdapter()).notifyDataSetChanged();
             }

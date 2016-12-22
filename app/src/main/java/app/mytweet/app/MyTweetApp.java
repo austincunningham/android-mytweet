@@ -25,8 +25,8 @@ import static app.mytweet.android.helpers.LogHelpers.info;
  */
 public class MyTweetApp extends Application {
 
-    //public String service_url = "http://35.166.135.79:4000";
-    public String service_url = "http://10.0.2.2:4000";   // Standard Emulator IP Address
+    public String service_url = "http://35.166.135.79:4000";
+    //public String service_url = "http://10.0.2.2:4000";   // Standard Emulator IP Address
     public MyTweetServiceProxy myTweetService;
 
     public List<User> users = new ArrayList<User>();

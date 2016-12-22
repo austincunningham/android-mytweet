@@ -310,8 +310,8 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(getActivity(), "Failed to create Tweet due to unknown network issue",
-                        Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Failed to create Tweet due to unknown network issue",
+                 //       Toast.LENGTH_SHORT).show();
             }
         });
     }
