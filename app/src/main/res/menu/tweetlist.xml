@@ -22,4 +22,10 @@ tools:context="app.mytweet.activities.TweetListActivity">
     app:showAsAction="never"
     android:title="@string/clear"/>
 
+<item
+    android:id="@+id/action_refresh"
+    android:icon="@android:drawable/ic_menu_rotate"
+    app:showAsAction="always"
+    android:title="@string/refresh"/>
+
 </menu>

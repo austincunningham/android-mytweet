@@ -292,7 +292,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     }
 
     public void createTweet(Tweet twe, String message){
-        twe.tweeter = app.currentUser._id;
+        twe.tweeter= app.currentUser._id;
         twe.message = message;
         twe.name = app.currentUser.email;
         Call<Tweet> call = app.myTweetService.newTweetByUserId( app.currentUser._id ,twe);

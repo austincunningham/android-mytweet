@@ -1,5 +1,6 @@
 package app.mytweet.activities;
 
+import android.util.Log;
 import android.view.ActionMode;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -26,6 +27,7 @@ import app.mytweet.R;
 import app.mytweet.app.MyTweetApp;
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.Tweet;
+import app.mytweet.models.User;
 import app.mytweet.settings.SettingsActivity;
 import retrofit.Call;
 import retrofit.Callback;
@@ -33,6 +35,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 
+import static android.content.ContentValues.TAG;
 import static  app.mytweet.android.helpers.IntentHelper.startActivityWithData;
 
 /**
@@ -131,8 +134,53 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
                 portfolio.deleteAllTweet();
                 startActivity(new Intent(getActivity(), TweetListActivity.class));
                 return true;
+            case R.id.action_refresh:
+                retrieveTweets();
+                retrieveUsers();
+                return true;
             default: return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void retrieveTweets() {
+        RetrieveTweets retrieveTweets = new RetrieveTweets();
+        Call<List<Tweet>> call = app.myTweetService.getAllTweets();
+        call.enqueue(retrieveTweets);
+    }
+
+    class RetrieveTweets implements Callback<List<Tweet>>{
+
+        @Override
+        public void onResponse(Response<List<Tweet>> response, Retrofit retrofit) {
+            List<Tweet> listTwe = response.body();
+            Toast.makeText(getActivity(), "Retrieving "+listTwe.size()+" Tweets", Toast.LENGTH_SHORT).show();
+            portfolio.refreshTweet(listTwe);
+            ((TweetAdapter)getListAdapter()).notifyDataSetChanged();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            Toast.makeText(getActivity(),"Failed to get tweet list", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //test if retrieveing users works using the same method as tweets it does
+    public void retrieveUsers() {
+        Call<List<User>> call = app.myTweetService.getAllUsers();
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Response<List<User>> response, Retrofit retrofit) {
+                List<User> listTwe = response.body();
+                Toast.makeText(getActivity(), "Retrieving "+listTwe.size()+" Users", Toast.LENGTH_SHORT).show();
+                //portfolio.refreshTweet(listTwe);
+                //((TweetAdapter)getListAdapter()).notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(getActivity(),"Failed to get User list", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

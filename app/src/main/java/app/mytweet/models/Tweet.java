@@ -1,6 +1,8 @@
 package app.mytweet.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +19,7 @@ public class Tweet {
     public String message;
     public String name;
     public String tweeter;
+
 
     private String tweet;
     private static final String JSON_ID             = "id"            ;
