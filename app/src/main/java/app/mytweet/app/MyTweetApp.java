@@ -1,7 +1,9 @@
 package app.mytweet.app;
 
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.mytweet.activities.TweetListActivity;
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.User;
 import app.mytweet.retrofit.MyTweetServiceProxy;
@@ -28,6 +31,7 @@ public class MyTweetApp extends Application {
     //public String service_url = "http://35.166.135.79:4000";
     public String service_url = "http://10.0.2.2:4000";   // Standard Emulator IP Address
     public MyTweetServiceProxy myTweetService;
+    public static boolean valid = false ;
 
     public List<User> users = new ArrayList<User>();
     public Portfolio portfolio;
@@ -59,29 +63,6 @@ public class MyTweetApp extends Application {
 
         myTweetService = retrofit.create(MyTweetServiceProxy.class);
 
-    }
-
-    public boolean validUser (String email, String password){
-        for(User user : users){
-            if (user.email.equals(email) && user.password.equals(password)){
-                Call<User> call = app.myTweetService.findUserByEmail(user.email);
-                call.enqueue(new Callback<User>() {
-
-                    @Override
-                    public void onResponse(Response<User> response, Retrofit retrofit) {
-                        app.currentUser = response.body();
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                    }
-                });
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
     }
 
     public static MyTweetApp getApp() {
