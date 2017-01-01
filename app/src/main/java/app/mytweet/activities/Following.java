@@ -1,10 +1,15 @@
 package app.mytweet.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +22,6 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-import static app.mytweet.R.id.reportList;
 
 /**
  * Created by austin on 01/01/2017.
@@ -28,13 +32,6 @@ public class Following extends AppCompatActivity
     ListView listView;
     public static List<String> result = new ArrayList<>();
     public static List<Tweet> tweetList = new ArrayList<>();
-    static final String[] numbers = new String[] {
-            "Amount, Pay method",
-            "10,     Direct",
-            "100,    PayPal",
-            "1000,   Direct",
-            "10,     PayPal",
-            "5000,   PayPal"};
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -64,8 +61,46 @@ public class Following extends AppCompatActivity
         }
 
 
-        listView = (ListView) findViewById(reportList);
-        ArrayAdapter<Tweet> adapter = new ArrayAdapter<Tweet>(this,  android.R.layout.simple_list_item_1, tweetList);
+
+        listView = (ListView) findViewById(R.id.reportList);
+        TweetListAdapter adapter = new TweetListAdapter(this, tweetList);
         listView.setAdapter(adapter);
+    }
+}
+
+
+
+class TweetListAdapter extends ArrayAdapter<Tweet> {
+    private Context context;
+    public List<Tweet> tweets;
+
+    public TweetListAdapter(Context context, List<Tweet> tweets) {
+        super(context, R.layout.activity_following, tweets);
+        this.context = context;
+        this.tweets = tweets;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View view = inflater.inflate(R.layout.activity_following, parent, false);
+        Tweet tweet = tweets.get(position);
+        TextView amountView = (TextView) view.findViewById(R.id.row_message);
+        TextView methodView = (TextView) view.findViewById(R.id.row_email);
+        TextView dateView = (TextView) view.findViewById(R.id.row_date);
+
+        amountView.setText("" + tweet.message);
+        methodView.setText(tweet.name);
+        String dateFormat = "EEE d MMM yyyy H:mm";
+        String date =android.text.format.DateFormat.format(dateFormat, tweet.date).toString();
+        dateView.setText(date);
+
+        return view;
+    }
+
+    @Override
+    public int getCount() {
+        return tweets.size();
     }
 }
