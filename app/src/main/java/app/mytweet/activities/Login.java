@@ -33,7 +33,7 @@ public class Login extends AppCompatActivity implements Callback<User>{
         EditText email = (EditText) findViewById(R.id.emailLogin);
         EditText password = (EditText) findViewById(R.id.passwordLogin);
 
-        User user = new User(" ", " ", email.getText().toString(), password.getText().toString());
+        User user = new User(" ", " ", email.getText().toString(), password.getText().toString(), null);
         Call<User> call = app.myTweetService.login(user);
         call.enqueue(this);
     }

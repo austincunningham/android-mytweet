@@ -50,20 +50,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tweetButton"
-        android:id="@+id/tweetButton"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="54dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="60dp"
-        android:layout_marginEnd="60dp"
-        android:onClick="tweetPressed"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,5 +79,27 @@
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"/>
+
+    <Button
+        android:text="@string/followingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tweetButton"
+        android:id="@+id/followingButton"
+        android:onClick="followingPressed"
+        android:layout_alignRight="@+id/tweetButton"
+        android:layout_alignEnd="@+id/tweetButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tweetButton"
+        android:id="@+id/tweetButton"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="31dp"
+        android:onClick="tweetPressed"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/registration_date"
+        android:layout_alignEnd="@+id/registration_date" />
 
 </RelativeLayout>

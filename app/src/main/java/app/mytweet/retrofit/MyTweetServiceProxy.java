@@ -4,8 +4,6 @@ package app.mytweet.retrofit;
  * Created by austin on 16/12/2016.
  */
 
-import com.squareup.okhttp.ResponseBody;
-
 import java.util.List;
 
 import app.mytweet.models.Tweet;
@@ -18,7 +16,6 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 
 public interface MyTweetServiceProxy {
-    public boolean isSuccessful();
 
     @GET("/api/users")
     Call<List<User>> getAllUsers();
@@ -75,5 +72,8 @@ public interface MyTweetServiceProxy {
 
     @DELETE("/api/tweets/uuid/{uuid}")
     Call<Tweet> deleteTweetByUuid(@Path("uuid")Long uuid);
+
+    /*@POST("/api/tweets/following")
+    Call<List<Tweet>> returnUserFollowingTweets(@Body String id);*/
 
 }

@@ -39,7 +39,7 @@ public class SignUp extends AppCompatActivity implements Callback<User> {
         EditText password = (EditText) findViewById(R.id.password);
 
         User user = new User(firstName.getText().toString(),lastName.getText().toString(),
-                email.getText().toString(),password.getText().toString());
+                email.getText().toString(),password.getText().toString(),null);
 
         MyTweetApp app = (MyTweetApp)getApplication();
         app.newUser(user);

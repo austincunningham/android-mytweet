@@ -21,6 +21,7 @@
     <string name="emailTweet">Email Tweet</string>
 
     <string name="settings">Settings</string>
+    <string name="following">Following</string>
     <string name="clear">Clear</string>
     <string name="new_tweet">New Tweet</string>
     <string name="registration_date"> </string>
@@ -39,4 +40,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_clear">Clear</string>
     <string name="refresh">Refresh Tweets List</string>
+    <string name="followingButton">Following</string>
+    <string name="followingTitle">Following</string>
 </resources>

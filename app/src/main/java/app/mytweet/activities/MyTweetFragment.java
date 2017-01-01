@@ -56,6 +56,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     private Tweet tweet;
     private Button dateButton;
     private Button tweetButton;
+    private Button followingButton;
     private Button selectContact;
     private Button emailTweet;
     private static final int REQUEST_CONTACT = 1;
@@ -80,31 +81,6 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         portfolio = app.portfolio;
         tweet = portfolio.getTweet(tweId);
 
-
-        /*setContentView(R.layout.activity_mytweet);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        tweetButton = (Button)findViewById(R.id.tweetButton);
-        dateButton = (Button)findViewById(R.id.registration_date);
-        tweetText = (EditText)findViewById(R.id.tweetText);
-        characterCount = (TextView)findViewById(R.id.characterCount);
-        selectContact = (Button) findViewById(R.id.selectContact);
-        emailTweet = (Button) findViewById(R.id.emailTweet);
-
-        tweet = new Tweet();
-
-        tweetText.addTextChangedListener(this);
-        dateButton.setOnClickListener(this);
-        emailTweet.setOnClickListener(this);
-        MyTweetApp app = (MyTweetApp)getApplication();
-        portfolio = app.portfolio;
-        Long tweId = (Long) getIntent().getExtras().getSerializable("TWEET_ID");
-        tweet = portfolio.getTweet(tweId);
-        if (tweet != null)
-        {
-            updateControls(tweet);
-        }*/
-
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
@@ -123,12 +99,14 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         characterCount = (TextView)v.findViewById(R.id.characterCount);
         selectContact = (Button)v.findViewById(R.id.selectContact);
         emailTweet = (Button)v.findViewById(R.id.emailTweet);
+        followingButton =(Button)v.findViewById(R.id.followingButton);
 
         tweetText.addTextChangedListener(this);
         dateButton.setOnClickListener(this);
         emailTweet.setOnClickListener(this);
         tweetButton.setOnClickListener(this);
         selectContact.setOnClickListener(this);
+        followingButton.setOnClickListener(this);
     }
 
 
@@ -182,6 +160,9 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                     startActivity(new Intent(getActivity(), TweetListActivity.class));
                     break;
                 }
+            case R.id.followingButton :
+                startActivity (new Intent(getActivity(), Following.class));
+                break;
         }
     }
 
@@ -310,9 +291,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
 
             @Override
             public void onFailure(Throwable t) {
-                Log.e("create tweet", ""+t);
-                //Toast.makeText(getActivity(), "Failed to create Tweet due to unknown network issue",
-                 //       Toast.LENGTH_SHORT).show();
+                Log.e("create_tweet", ""+t);
             }
         });
     }
