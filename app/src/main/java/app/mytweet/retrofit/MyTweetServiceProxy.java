@@ -74,6 +74,6 @@ public interface MyTweetServiceProxy {
     //Call<Tweet> updateTweet(@Path("id") String id, @Body Tweet tweet);
 
     @DELETE("/api/tweets/uuid/{uuid}")
-    Call<Long> deleteTweetByUuid(@Path("uuid")Long uuid);
+    Call<Tweet> deleteTweetByUuid(@Path("uuid")Long uuid);
 
 }

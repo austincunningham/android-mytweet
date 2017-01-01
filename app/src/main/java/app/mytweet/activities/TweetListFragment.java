@@ -210,15 +210,16 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
                 final Tweet tweet = adapter.getItem(i);
                 //portfolio.deleteTweet(adapter.getItem(i));
                 portfolio.deleteTweet(tweet);
-                Call<Long> call = app.myTweetService.deleteTweetByUuid(tweet.id);
-                call.enqueue(new Callback<Long>() {
+                Call<Tweet> call = app.myTweetService.deleteTweetByUuid(tweet.id);
+                call.enqueue(new Callback<Tweet>() {
                     @Override
-                    public void onResponse(Response<Long> response, Retrofit retrofit) {
+                    public void onResponse(Response<Tweet> response, Retrofit retrofit) {
                         Toast.makeText(getActivity(), "Tweet deleted successfully", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
+                        Log.e("delete_tweet", ""+t);
                         Toast.makeText(getActivity(), "Tweet delete unsuccessfully", Toast.LENGTH_SHORT).show();
                     }
                 });
