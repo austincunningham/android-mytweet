@@ -11,6 +11,7 @@ public class User {
     public String _id;
 
     public User(String firstName,String lastName,String email,String password){
+        //this._id = _id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

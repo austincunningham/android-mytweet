@@ -3,6 +3,7 @@ package app.mytweet.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -43,9 +44,9 @@ public class SignUp extends AppCompatActivity implements Callback<User> {
         MyTweetApp app = (MyTweetApp)getApplication();
         app.newUser(user);
 
-        startActivity (new Intent(this, Login.class));
+        //startActivity (new Intent(this, Login.class));
 
-        Call<User> call = (Call<User>) app.myTweetService.register(user);
+        Call<User> call = app.myTweetService.register(user);
         call.enqueue(this);
         //Toast toast = Toast.makeText(this, "Login Pressed!", Toast.LENGTH_SHORT);
         //toast.show();
@@ -61,6 +62,7 @@ public class SignUp extends AppCompatActivity implements Callback<User> {
 
     @Override
     public void onFailure(Throwable t) {
+        Log.e("signup", ""+t);
         Toast toast = Toast.makeText(this, "MyTweet Service Unavailable. Try again later", Toast.LENGTH_LONG);
         toast.show();
         startActivity (new Intent(this, Welcome.class));

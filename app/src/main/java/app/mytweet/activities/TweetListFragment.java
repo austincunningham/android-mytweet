@@ -59,20 +59,6 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
         portfolio = app.portfolio;
         adapter = new TweetAdapter(getActivity(), portfolio.tweets);
         setListAdapter(adapter);
-
-
-
-
-        /*setTitle(R.string.app_name);
-        setContentView(R.layout.activity_tweetlist);
-
-        listView = (ListView)findViewById(R.id.tweetList);
-
-        MyTweetApp app = (MyTweetApp)getApplication();
-
-        adapter = new TweetAdapter(this, portfolio.tweets);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);*/
     }
 
     @Override
@@ -248,6 +234,9 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
 
     }
 }
+
+
+//----------------------- Tweet Adapter ----------------------------------------//
 
 class TweetAdapter extends ArrayAdapter<Tweet>{
     private Context context;

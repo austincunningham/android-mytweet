@@ -37,7 +37,7 @@ public class MyTweetApp extends Application {
     public Portfolio portfolio;
     //private static final String FILENAME = "portfolio.json";
     protected static MyTweetApp app;
-    public User currentUser;
+    public static User currentUser;
 
 
     public void newUser(User user){
