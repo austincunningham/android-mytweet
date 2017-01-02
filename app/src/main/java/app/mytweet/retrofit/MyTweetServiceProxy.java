@@ -76,4 +76,7 @@ public interface MyTweetServiceProxy {
     @POST("/api/users/follow/{id}")
     Call<User> follow(@Path("id") String id, @Body User user);
 
+    @POST("/api/users/unfollow/{id}")
+    Call<User> unfollow(@Path("id") String id, @Body User user);
+
 }

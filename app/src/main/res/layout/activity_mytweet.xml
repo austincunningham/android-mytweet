@@ -102,4 +102,14 @@
         android:layout_alignRight="@+id/registration_date"
         android:layout_alignEnd="@+id/registration_date" />
 
+    <Button
+        android:text="@string/unfollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tweetText"
+        android:layout_alignRight="@+id/followingButton"
+        android:layout_alignEnd="@+id/followingButton"
+        android:onClick="unfollowPressed"
+        android:id="@+id/unfollowButton" />
+
 </RelativeLayout>

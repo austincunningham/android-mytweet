@@ -58,6 +58,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     private Button dateButton;
     private Button tweetButton;
     private Button followingButton;
+    private Button unfollowButton;
     private Button selectContact;
     private Button emailTweet;
     private static final int REQUEST_CONTACT = 1;
@@ -101,6 +102,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         selectContact = (Button)v.findViewById(R.id.selectContact);
         emailTweet = (Button)v.findViewById(R.id.emailTweet);
         followingButton =(Button)v.findViewById(R.id.followingButton);
+        unfollowButton =(Button)v.findViewById(R.id.unfollowButton);
 
         tweetText.addTextChangedListener(this);
         dateButton.setOnClickListener(this);
@@ -108,6 +110,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         tweetButton.setOnClickListener(this);
         selectContact.setOnClickListener(this);
         followingButton.setOnClickListener(this);
+        unfollowButton.setOnClickListener(this);
     }
 
 
@@ -179,6 +182,30 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                         @Override
                         public void onFailure(Throwable t) {
                             Log.e("follow_error", ""+t);
+                        }
+                    });
+                    startActivity(new Intent(getActivity(), Following.class));
+                    break;
+                }
+            case R.id.unfollowButton:
+                if (MyTweetApp.currentUser.email == tweet.name) {
+                    Toast toast = Toast.makeText(getActivity(), "Can't unfollow your self", Toast.LENGTH_SHORT);
+                    toast.show();
+                    break;
+                }else{
+                    MyTweetApp.currentUser.following.remove(tweet.tweeter);
+                    Following.tweetList.clear();
+                    Call<User> call = app.myTweetService.unfollow(tweet.tweeter, MyTweetApp.currentUser);
+                    call.enqueue(new Callback<User>(){
+
+                        @Override
+                        public void onResponse(Response<User> response, Retrofit retrofit) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+
                         }
                     });
                     startActivity(new Intent(getActivity(), Following.class));
