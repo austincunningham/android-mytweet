@@ -40,6 +40,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_clear">Clear</string>
     <string name="refresh">Refresh Tweets List</string>
-    <string name="followingButton">Following</string>
+    <string name="followingButton">Follow</string>
     <string name="followingTitle">Following</string>
 </resources>

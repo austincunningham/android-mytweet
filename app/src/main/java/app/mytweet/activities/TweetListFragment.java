@@ -59,6 +59,7 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
         portfolio = app.portfolio;
         adapter = new TweetAdapter(getActivity(), portfolio.tweets);
         setListAdapter(adapter);
+        retrieveTweets();
     }
 
     @Override

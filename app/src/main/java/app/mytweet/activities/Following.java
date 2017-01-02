@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,7 +22,7 @@ import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
-
+import static app.mytweet.android.helpers.IntentHelper.navigateUp;
 
 /**
  * Created by austin on 01/01/2017.
@@ -37,6 +38,7 @@ public class Following extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_following);
         final MyTweetApp app = (MyTweetApp) getApplication();
 
@@ -63,18 +65,30 @@ public class Following extends AppCompatActivity
 
 
         listView = (ListView) findViewById(R.id.reportList);
-        TweetListAdapter adapter = new TweetListAdapter(this, tweetList);
+        FollowingAdapter adapter = new FollowingAdapter(this, tweetList);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:  navigateUp(this);
+                tweetList.clear();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 
 
 
-class TweetListAdapter extends ArrayAdapter<Tweet> {
+class FollowingAdapter extends ArrayAdapter<Tweet> {
     private Context context;
     public List<Tweet> tweets;
 
-    public TweetListAdapter(Context context, List<Tweet> tweets) {
+    public FollowingAdapter(Context context, List<Tweet> tweets) {
         super(context, R.layout.activity_following, tweets);
         this.context = context;
         this.tweets = tweets;

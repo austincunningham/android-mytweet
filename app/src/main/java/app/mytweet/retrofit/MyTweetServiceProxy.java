@@ -73,7 +73,7 @@ public interface MyTweetServiceProxy {
     @DELETE("/api/tweets/uuid/{uuid}")
     Call<Tweet> deleteTweetByUuid(@Path("uuid")Long uuid);
 
-    /*@POST("/api/tweets/following")
-    Call<List<Tweet>> returnUserFollowingTweets(@Body String id);*/
+    @POST("/api/tweets/follow/{id}")
+    Call<User> follow(@Path("id") String id, @Body User user);
 
 }

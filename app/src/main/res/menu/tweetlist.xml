@@ -17,12 +17,6 @@ tools:context="app.mytweet.activities.TweetListActivity">
     android:title="@string/settings"/>
 
 <item
-    android:id="@+id/action_following"
-    android:orderInCategory="100"
-    app:showAsAction="never"
-    android:title="@string/following"/>
-
-<item
     android:id="@+id/action_clear"
     android:orderInCategory="100"
     app:showAsAction="never"

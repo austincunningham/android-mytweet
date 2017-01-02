@@ -25,6 +25,7 @@ import app.mytweet.android.helpers.ContactHelper;
 import app.mytweet.app.MyTweetApp;
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.Tweet;
+import app.mytweet.models.User;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -161,9 +162,30 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                     break;
                 }
             case R.id.followingButton :
-                startActivity (new Intent(getActivity(), Following.class));
-                break;
-        }
+                if (MyTweetApp.currentUser.email == tweet.name){
+                    Toast toast = Toast.makeText(getActivity(), "Can't follow your self", Toast.LENGTH_SHORT);
+                    toast.show();
+                    break;
+                } else {
+                    MyTweetApp.currentUser.following.add(tweet.tweeter);
+                    Call<User> call = app.myTweetService.follow( tweet.tweeter ,MyTweetApp.currentUser);
+                    call.enqueue(new Callback<User>(){
+                        @Override
+                        public void onResponse(Response<User> response, Retrofit retrofit) {
+                            response.body();
+                            Following.tweetList.clear();
+                            startActivity(new Intent(getActivity(), Following.class));
+                        }
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Log.e("create_tweet", ""+t);
+                        }
+                    });
+
+                    break;
+                }
+
+            }
     }
 
     @Override

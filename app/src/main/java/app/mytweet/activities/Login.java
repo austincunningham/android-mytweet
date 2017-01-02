@@ -41,6 +41,7 @@ public class Login extends AppCompatActivity implements Callback<User>{
     @Override
     public void onResponse(Response<User> response, Retrofit retrofit)  {
         MyTweetApp.currentUser = response.body();
+
         Log.v("authenticated", " "+MyTweetApp.currentUser);
         startActivity(new Intent(this, TweetListActivity.class));
     }
