@@ -168,20 +168,20 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                     break;
                 } else {
                     MyTweetApp.currentUser.following.add(tweet.tweeter);
-                    Call<User> call = app.myTweetService.follow( tweet.tweeter ,MyTweetApp.currentUser);
+                    Following.tweetList.clear();
+                    Call<User> call = app.myTweetService.follow( tweet.tweeter, MyTweetApp.currentUser);
                     call.enqueue(new Callback<User>(){
                         @Override
                         public void onResponse(Response<User> response, Retrofit retrofit) {
-                            response.body();
-                            Following.tweetList.clear();
+                            MyTweetApp.currentUser = response.body();
                             startActivity(new Intent(getActivity(), Following.class));
                         }
                         @Override
                         public void onFailure(Throwable t) {
-                            Log.e("create_tweet", ""+t);
+                            Log.e("follow_error", ""+t);
                         }
                     });
-
+                    startActivity(new Intent(getActivity(), Following.class));
                     break;
                 }
 
