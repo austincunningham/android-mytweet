@@ -170,7 +170,12 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                     toast.show();
                     break;
                 } else {
-                    MyTweetApp.currentUser.following.add(tweet.tweeter);
+                    if (MyTweetApp.currentUser.following.contains(tweet.tweeter))
+                    {
+                        Log.v("do_nothing", "nothing");
+                    }else{
+                        MyTweetApp.currentUser.following.add(tweet.tweeter);
+                    }
                     Following.tweetList.clear();
                     Call<User> call = app.myTweetService.follow( tweet.tweeter, MyTweetApp.currentUser);
                     call.enqueue(new Callback<User>(){
