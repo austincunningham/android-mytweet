@@ -173,7 +173,7 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                     call.enqueue(new Callback<User>(){
                         @Override
                         public void onResponse(Response<User> response, Retrofit retrofit) {
-                            MyTweetApp.currentUser = response.body();
+                            response.body();
                             startActivity(new Intent(getActivity(), Following.class));
                         }
                         @Override

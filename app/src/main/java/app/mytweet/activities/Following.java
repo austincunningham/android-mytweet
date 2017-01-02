@@ -1,13 +1,17 @@
 package app.mytweet.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,16 +27,21 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 import static app.mytweet.android.helpers.IntentHelper.navigateUp;
+import android.widget.AbsListView;
+import android.view.ActionMode;
+import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * Created by austin on 01/01/2017.
  */
 
-public class Following extends AppCompatActivity
+public class Following extends AppCompatActivity implements OnItemClickListener,
+        AbsListView.MultiChoiceModeListener
 {
     ListView listView;
     public static List<String> result = new ArrayList<>();
     public static List<Tweet> tweetList = new ArrayList<>();
+    private FollowingAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -64,9 +73,16 @@ public class Following extends AppCompatActivity
 
 
 
-        listView = (ListView) findViewById(R.id.reportList);
-        FollowingAdapter adapter = new FollowingAdapter(this, tweetList);
+        listView = (ListView) findViewById(R.id.followingList);
+        adapter = new FollowingAdapter(this, tweetList);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -80,6 +96,71 @@ public class Following extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
+    //@Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View v = onCreateView(inflater, parent, savedInstanceState);
+        listView = (ListView) v.findViewById(android.R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(this);
+
+        return v;
+    }
+
+    //================================ MultiChoiceModeListener methods(start)=======================
+    @Override
+    public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        MenuInflater inflater = mode.getMenuInflater();
+        inflater.inflate(R.menu.following_list_context, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.menu_item_unfollow:
+                unfollow(mode);
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private void unfollow(ActionMode mode)
+    {
+        for (int i = adapter.getCount() - 1; i >= 0; i--)
+        {
+            if (listView.isItemChecked(i))
+            {
+                //portfolio.deleteResidence(adapter.getItem(i));
+
+            }
+        }
+        mode.finish();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+    //================================ MultiChoiceModeListener methods(start)=======================
 }
 
 

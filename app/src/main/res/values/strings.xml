@@ -42,4 +42,5 @@
     <string name="refresh">Refresh Tweets List</string>
     <string name="followingButton">Follow</string>
     <string name="followingTitle">Following</string>
+    <string name="unfollow">Unfollow</string>
 </resources>
