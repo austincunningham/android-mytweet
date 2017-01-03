@@ -62,6 +62,7 @@ public class MyTweetApp extends Application {
                 .build();
 
         myTweetService = retrofit.create(MyTweetServiceProxy.class);
+        sendBroadcast(new Intent("app.mytweet.receivers.SEND_BROADCAST"));
 
     }
 

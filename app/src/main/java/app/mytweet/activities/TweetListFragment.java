@@ -34,6 +34,10 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
+import android.content.BroadcastReceiver;
+
 
 import static android.content.ContentValues.TAG;
 import static  app.mytweet.android.helpers.IntentHelper.startActivityWithData;
@@ -42,15 +46,18 @@ import static  app.mytweet.android.helpers.IntentHelper.startActivityWithData;
  * Created by ictskills on 10/10/16.
  */
 
-public class TweetListFragment extends ListFragment implements OnItemClickListener ,AbsListView.MultiChoiceModeListener{
+public class TweetListFragment extends ListFragment implements OnItemClickListener
+        ,AbsListView.MultiChoiceModeListener {
     private ArrayList<Tweet> tweets;
     private ListView listView;
     private Portfolio portfolio;
     private TweetAdapter adapter;
+    public static final String BROADCAST_ACTION = "app.mytweet.activities.TweetListFragment";
+    private IntentFilter intentFilter;
     MyTweetApp app;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getActivity().setTitle(R.string.app_name);
@@ -60,6 +67,7 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
         adapter = new TweetAdapter(getActivity(), portfolio.tweets);
         setListAdapter(adapter);
         retrieveTweets();
+
     }
 
     @Override
@@ -77,17 +85,15 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         //adapter.notifyDataSetChanged();
-        ((TweetAdapter)getListAdapter()).notifyDataSetChanged();
+        ((TweetAdapter) getListAdapter()).notifyDataSetChanged();
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-       // MenuInflater menuInflater = getMenuInflater();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // MenuInflater menuInflater = getMenuInflater();
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.tweetlist, menu);
         //return true;
@@ -97,16 +103,15 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, parent, savedInstanceState);
 
-        listView = (ListView)v.findViewById(android.R.id.list);
+        listView = (ListView) v.findViewById(android.R.id.list);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(this);
+        registerBroadcastReceiver();
         return v;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.menu_item_new_tweet:
                 Tweet tweet = new Tweet();
                 portfolio.addTweet(tweet);
@@ -125,7 +130,8 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
                 retrieveTweets();
                 retrieveUsers();
                 return true;
-            default: return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -136,19 +142,19 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
         call.enqueue(retrieveTweets);
     }
 
-    class RetrieveTweets implements Callback<List<Tweet>>{
+    class RetrieveTweets implements Callback<List<Tweet>> {
 
         @Override
         public void onResponse(Response<List<Tweet>> response, Retrofit retrofit) {
             List<Tweet> listTwe = response.body();
-            Toast.makeText(getActivity(), "Retrieving "+listTwe.size()+" Tweets", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Retrieving " + listTwe.size() + " Tweets", Toast.LENGTH_SHORT).show();
             portfolio.refreshTweet(listTwe);
-            ((TweetAdapter)getListAdapter()).notifyDataSetChanged();
+            ((TweetAdapter) getListAdapter()).notifyDataSetChanged();
         }
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(getActivity(),"Failed to get tweet list", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Failed to get tweet list", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -160,14 +166,14 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
             @Override
             public void onResponse(Response<List<User>> response, Retrofit retrofit) {
                 List<User> listUsr = response.body();
-                Toast.makeText(getActivity(), "Retrieving "+listUsr.size()+" Users", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Retrieving " + listUsr.size() + " Users", Toast.LENGTH_SHORT).show();
                 //portfolio.refreshTweet(listTwe);
                 //((TweetAdapter)getListAdapter()).notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(getActivity(),"Failed to get User list", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Failed to get User list", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -191,8 +197,7 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        switch (menuItem.getItemId())
-        {
+        switch (menuItem.getItemId()) {
             case R.id.menu_item_delete_tweet:
                 deleteTweet(actionMode);
                 return true;
@@ -202,12 +207,9 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
 
     }
 
-    private void deleteTweet(ActionMode actionMode)
-    {
-        for (int i = adapter.getCount() - 1; i >= 0; i--)
-        {
-            if (listView.isItemChecked(i))
-            {
+    private void deleteTweet(ActionMode actionMode) {
+        for (int i = adapter.getCount() - 1; i >= 0; i--) {
+            if (listView.isItemChecked(i)) {
                 final Tweet tweet = adapter.getItem(i);
                 //portfolio.deleteTweet(adapter.getItem(i));
                 portfolio.deleteTweet(tweet);
@@ -220,7 +222,7 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
 
                     @Override
                     public void onFailure(Throwable t) {
-                        Log.e("delete_tweet", ""+t);
+                        Log.e("delete_tweet", "" + t);
                         Toast.makeText(getActivity(), "Tweet delete unsuccessfully", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -235,33 +237,53 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
     public void onDestroyActionMode(ActionMode mode) {
 
     }
-}
+
+    private void registerBroadcastReceiver() {
+        intentFilter = new IntentFilter(BROADCAST_ACTION);
+        ResponseReceiver responseReceiver = new ResponseReceiver();
+        // Registers the ResponseReceiver and its intent filters
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(responseReceiver, intentFilter);
+    }
+
+    private class ResponseReceiver extends BroadcastReceiver {
+        //private void ResponseReceiver() {}
+        // Called when the BroadcastReceiver gets an Intent it's registered to receive
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //refreshDonationList();
+            adapter.tweets = app.portfolio.tweets;
+            adapter.notifyDataSetChanged();
+        }
+    }
 
 
 //----------------------- Tweet Adapter ----------------------------------------//
 
-class TweetAdapter extends ArrayAdapter<Tweet>{
-    private Context context;
+    class TweetAdapter extends ArrayAdapter<Tweet> {
+        private Context context;
+        List<Tweet> tweets;
 
-    public TweetAdapter (Context context, ArrayList<Tweet>tweets){
-        super(context,0,tweets);
-        this.context = context;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if(convertView == null ){
-            convertView = inflater.inflate(R.layout.list_item_tweet, null);
+        public TweetAdapter(Context context, ArrayList<Tweet> tweets) {
+            super(context, 0, tweets);
+            this.context = context;
+            this.tweets = tweets;
         }
-        Tweet twe = getItem(position);
 
-        TextView tweetContent =(TextView)convertView.findViewById(R.id.tweet_list_item_tweetContent);
-        tweetContent.setText(twe.message);
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.list_item_tweet, null);
+            }
+            Tweet twe = getItem(position);
 
-        TextView dateTextView = (TextView) convertView.findViewById(R.id.tweet_list_item_dateTextView);
-        dateTextView.setText(twe.getDateString());
+            TextView tweetContent = (TextView) convertView.findViewById(R.id.tweet_list_item_tweetContent);
+            tweetContent.setText(twe.message);
 
-        return convertView;
+            TextView dateTextView = (TextView) convertView.findViewById(R.id.tweet_list_item_dateTextView);
+            dateTextView.setText(twe.getDateString());
+
+            return convertView;
+        }
     }
 }

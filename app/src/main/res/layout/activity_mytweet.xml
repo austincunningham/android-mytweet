@@ -60,13 +60,11 @@
         android:textColor="@color/white"
         android:textStyle="bold|italic"
         android:layout_alignTop="@+id/tweetButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignBottom="@+id/tweetButton"
         android:layout_toLeftOf="@+id/tweetButton"
-        android:layout_toStartOf="@+id/tweetButton"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="100dp"/>
+        android:layout_marginRight="100dp"
+        android:layout_alignLeft="@+id/registration_date"
+        android:layout_alignStart="@+id/registration_date" />
 
     <Button
         android:layout_width="wrap_content"
@@ -81,14 +79,25 @@
         android:layout_marginRight="16dp"/>
 
     <Button
+        android:text="@string/unfollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="unfollowPressed"
+        android:id="@+id/unfollowButton"
+        android:layout_alignBaseline="@+id/followingButton"
+        android:layout_alignBottom="@+id/followingButton"
+        android:layout_toLeftOf="@+id/followingButton"
+        android:layout_toStartOf="@+id/followingButton" />
+
+    <Button
         android:text="@string/followingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tweetButton"
         android:id="@+id/followingButton"
         android:onClick="followingPressed"
-        android:layout_alignRight="@+id/tweetButton"
-        android:layout_alignEnd="@+id/tweetButton" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/characterCount"
+        android:layout_toEndOf="@+id/characterCount" />
 
     <Button
         android:layout_width="wrap_content"
@@ -96,20 +105,9 @@
         android:text="@string/tweetButton"
         android:id="@+id/tweetButton"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="31dp"
         android:onClick="tweetPressed"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/unfollowButton"
         android:layout_alignRight="@+id/registration_date"
         android:layout_alignEnd="@+id/registration_date" />
-
-    <Button
-        android:text="@string/unfollow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tweetText"
-        android:layout_alignRight="@+id/followingButton"
-        android:layout_alignEnd="@+id/followingButton"
-        android:onClick="unfollowPressed"
-        android:id="@+id/unfollowButton" />
 
 </RelativeLayout>

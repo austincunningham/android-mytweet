@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import static app.mytweet.android.helpers.IntentHelper.navigateUp;
 import static app.mytweet.android.helpers.LogHelpers.info;
+import android.content.Intent;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -36,6 +37,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         info(getActivity(), "Setting change - key : value = " + key + " : " + sharedPreferences.getString(key, ""));
+        String refreshIntervalKey = getActivity().getResources().getString(R.string.refresh_interval_preference_key);
+        if(key.equals(refreshIntervalKey)) {
+            getActivity().sendBroadcast(new Intent("app.mytweet.receivers.SEND_BROADCAST"));
+        }
     }
 
     @Override
