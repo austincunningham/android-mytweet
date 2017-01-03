@@ -1,5 +1,6 @@
 package app.mytweet.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -45,12 +46,19 @@ import android.content.pm.PackageManager;
 
 import android.support.v13.app.FragmentCompat;
 
+import static app.mytweet.android.helpers.CameraHelper.showPhoto;
+import android.widget.ImageView;
+
 /**
  * Created by austin on 28/09/2016.
  */
-public class MyTweetFragment extends Fragment implements TextWatcher,
-        CompoundButton.OnCheckedChangeListener, View.OnClickListener,
-        DatePickerDialog.OnDateSetListener {
+public class MyTweetFragment extends Fragment implements
+        TextWatcher,
+        CompoundButton.OnCheckedChangeListener,
+        View.OnClickListener,
+        DatePickerDialog.OnDateSetListener,
+        View.OnLongClickListener
+{
 
     private EditText tweetText;
     private TextView characterCount;
@@ -67,6 +75,9 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     Intent data;
     String tweetContent;
     boolean readOnly = false;
+    private static final int REQUEST_PHOTO = 0;
+    private ImageView cameraButton;
+    private ImageView photoView;
 
     MyTweetApp app;
     public static final String EXTRA_TWEET_ID = "mytweet.TWEET_ID";
@@ -103,6 +114,8 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         emailTweet = (Button)v.findViewById(R.id.emailTweet);
         followingButton =(Button)v.findViewById(R.id.followingButton);
         unfollowButton =(Button)v.findViewById(R.id.unfollowButton);
+        cameraButton = (ImageView) v.findViewById(R.id.camera_button);
+        photoView = (ImageView) v.findViewById(R.id.mytweet_imageView);
 
         tweetText.addTextChangedListener(this);
         dateButton.setOnClickListener(this);
@@ -111,6 +124,8 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
         selectContact.setOnClickListener(this);
         followingButton.setOnClickListener(this);
         unfollowButton.setOnClickListener(this);
+        cameraButton.setOnClickListener(this);
+        photoView.setOnLongClickListener(this);
     }
 
 
@@ -216,6 +231,10 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                     startActivity(new Intent(getActivity(), Following.class));
                     break;
                 }
+            case R.id.camera_button:
+                Intent ic = new Intent(getActivity(), TweetCameraActivity.class);
+                startActivityForResult(ic, REQUEST_PHOTO);
+                break;
 
             }
     }
@@ -223,10 +242,22 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        if (resultCode != Activity.RESULT_OK)
+        {
+            return;
+        }
         switch (requestCode) {
             case REQUEST_CONTACT:
                 this.data = data;
                 checkContactsReadPermission();
+                break;
+            case REQUEST_PHOTO:
+                String filename = data.getStringExtra(TweetCameraActivity.EXTRA_PHOTO_FILENAME);
+                if (filename != null)
+                {
+                    tweet.photo = filename;
+                    showPhoto(getActivity(), tweet, photoView );
+                }
                 break;
         }
     }
@@ -348,5 +379,26 @@ public class MyTweetFragment extends Fragment implements TextWatcher,
                 Log.e("create_tweet", ""+t);
             }
         });
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        //display thumbnail photo
+        showPhoto(getActivity(), tweet, photoView);
+    }
+
+    /* ====================== longpress thumbnail ===================================*/
+  /*
+   * Long press the bitmap image to view photo in single-photo gallery
+   */
+    @Override
+    public boolean onLongClick(View v)
+    {
+        Intent i = new Intent(getActivity(), TweetGalleryActivity.class);
+        i.putExtra(EXTRA_TWEET_ID, tweet.id);
+        startActivity(i);
+        return true;
     }
 }

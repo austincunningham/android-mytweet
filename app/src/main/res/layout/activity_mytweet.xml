@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/twitter"
@@ -109,5 +110,26 @@
         android:layout_below="@+id/unfollowButton"
         android:layout_alignRight="@+id/registration_date"
         android:layout_alignEnd="@+id/registration_date" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/characterCount"
+        android:layout_alignEnd="@+id/characterCount"
+        android:id="@+id/camera_button" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/gallery_thumb"
+        android:scaleType="centerInside"
+        android:background="@android:color/darker_gray"
+        android:cropToPadding="true"
+        android:layout_above="@+id/characterCount"
+        android:layout_toStartOf="@+id/camera_button"
+        android:id="@+id/mytweet_imageView"
+        android:layout_toLeftOf="@+id/camera_button" />
 
 </RelativeLayout>

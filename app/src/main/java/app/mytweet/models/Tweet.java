@@ -19,6 +19,7 @@ public class Tweet {
     public String message;
     public String name;
     public String tweeter;
+    public String photo;
 
 
     private String tweet;
@@ -34,6 +35,7 @@ public class Tweet {
         //id = new Random().nextLong();
         id = unsignedLong();
         date = new Date().getTime();
+        photo = "photo";
     }
 
     public Long unsignedLong(){

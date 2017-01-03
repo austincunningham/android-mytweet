@@ -49,6 +49,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.mytweet.activities.TweetListActivity"/>
         </activity>
+        <!-- Camera -->
+        <activity
+            android:name=".activities.TweetCameraActivity"
+            android:label="@string/app_name">
+
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MyTweetPagerActivity"/>
+        </activity>
+        <activity
+            android:name=".activities.TweetGalleryActivity"
+            android:label="@string/app_name">
+
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MyTweetPagerActivity"/>
+        </activity>
+
         <!-- Register Broadcast Receiver : permission included above -->
         <receiver android:name=".receivers.BootReceiver"
             android:exported="false">
