@@ -12,10 +12,10 @@ import app.mytweet.models.Tweet;
 import java.io.IOException;
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class RefreshService extends IntentService implements Callback<List<Tweet>>
 {
@@ -32,9 +32,9 @@ public class RefreshService extends IntentService implements Callback<List<Tweet
     protected void onHandleIntent(Intent intent)
     {
         localIntent = new Intent(TweetListFragment.BROADCAST_ACTION);
-        Call<List<Tweet>> call = app.myTweetService.getAllTweets();
+        Call<List<Tweet>> call =  (Call<List<Tweet>>)app.myTweetServiceOpen.getAllTweets();
         call.enqueue(this);
-        /*Call<List<Tweet>> call = (Call<List<Tweet>>) app.myTweetService.getAllTweets();
+        /*Call<List<Tweet>> call = (Call<List<Tweet>>) app.myTweetServiceOpen.getAllTweets();
         try
         {
             Response<List<Tweet>> response = call.execute();
@@ -54,7 +54,7 @@ public class RefreshService extends IntentService implements Callback<List<Tweet
         Log.i(tag, "RefreshService instance destroyed");
     }
 
-    @Override
+    /*@Override
     public void onResponse(Response<List<Tweet>> response, Retrofit retrofit) {
         app.portfolio.refreshTweet(response.body());
         LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
@@ -62,6 +62,17 @@ public class RefreshService extends IntentService implements Callback<List<Tweet
 
     @Override
     public void onFailure(Throwable t) {
+
+    }*/
+
+    @Override
+    public void onResponse(Call<List<Tweet>> call, Response<List<Tweet>> response) {
+        app.portfolio.refreshTweet(response.body());
+        LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
+    }
+
+    @Override
+    public void onFailure(Call<List<Tweet>> call, Throwable t) {
 
     }
 }

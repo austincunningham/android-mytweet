@@ -29,22 +29,13 @@ public interface MyTweetServiceProxy {
     @GET("/api/users/email/{email}")
     Call<User> findUserByEmail(@Path("email") String email);
 
-    @POST("/api/users/androidLogin")
-    Call<User> login(@Body User user);
-
     //@DELETE("/api/users/email/{email}")
     //Call<User> deleteUserByEmail(@Path("email") String email);
-
-    @POST("/api/users/register")
-    Call<User> register(@Body User user);
 
     //@DELETE("/api/users")
     //Call<List<User>> deleteAllUsers();
 
     //Tweet API
-
-    @GET("/api/tweets")
-    Call<List<Tweet>> getAllTweets();
 
     //@GET("/api/tweet/{id}")
     //Call<Tweet> getTweetById(@Path("id") String id);

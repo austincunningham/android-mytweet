@@ -15,6 +15,8 @@ import app.mytweet.activities.TweetListActivity;
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.User;
 import app.mytweet.retrofit.MyTweetServiceProxy;
+import app.mytweet.retrofit.MyTweetServiceProxyOpen;
+import app.mytweet.retrofit.RetrofitServiceFactory;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -30,7 +32,8 @@ public class MyTweetApp extends Application {
 
     //public String service_url = "http://35.160.157.123:4000";
     public String service_url = "http://10.0.2.2:4000";   // Standard Emulator IP Address
-    public MyTweetServiceProxy myTweetService;
+    public static MyTweetServiceProxy myTweetService;
+    public MyTweetServiceProxyOpen myTweetServiceOpen;
     public static boolean valid = false ;
 
     public List<User> users = new ArrayList<User>();
@@ -61,7 +64,8 @@ public class MyTweetApp extends Application {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        myTweetService = retrofit.create(MyTweetServiceProxy.class);
+        //myTweetService = retrofit.create(MyTweetServiceProxy.class);
+        myTweetServiceOpen = RetrofitServiceFactory.createService(MyTweetServiceProxyOpen.class);
         sendBroadcast(new Intent("app.mytweet.receivers.SEND_BROADCAST"));
 
     }

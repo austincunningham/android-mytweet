@@ -10,16 +10,22 @@ import android.widget.Toast;
 
 import app.mytweet.R;
 import app.mytweet.app.MyTweetApp;
+import app.mytweet.models.Token;
 import app.mytweet.models.User;
-import retrofit.Call;
+/*import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit.Retrofit;*/
+
+import app.mytweet.retrofit.RetrofitServiceFactory;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by austin on 27/09/2016.
  */
-public class Login extends AppCompatActivity implements Callback<User>{
+public class Login extends AppCompatActivity implements Callback<Token>{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,23 +40,24 @@ public class Login extends AppCompatActivity implements Callback<User>{
         EditText password = (EditText) findViewById(R.id.passwordLogin);
 
         User user = new User(" ", " ", email.getText().toString(), password.getText().toString(), null);
-        Call<User> call = app.myTweetService.login(user);
+        Call<Token> call =(Call<Token>) app.myTweetServiceOpen.login(user);
         call.enqueue(this);
     }
 
     @Override
-    public void onResponse(Response<User> response, Retrofit retrofit)  {
-        MyTweetApp.currentUser = response.body();
+    public void onResponse(Call<Token> call, Response<Token> response) {
+        Token auth = response.body();
+        MyTweetApp.myTweetService = RetrofitServiceFactory.createService(app.mytweet.retrofit.MyTweetServiceProxy.class, auth.token);
+        MyTweetApp.currentUser = auth.user;
 
         Log.v("authenticated", " "+MyTweetApp.currentUser);
         startActivity(new Intent(this, TweetListActivity.class));
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call<Token> call, Throwable t) {
         Log.e("authenticated", " "+t);
         Toast toast = Toast.makeText(this, "Login Pressed! Invalid Credentials", Toast.LENGTH_SHORT);
         toast.show();
     }
-
 }

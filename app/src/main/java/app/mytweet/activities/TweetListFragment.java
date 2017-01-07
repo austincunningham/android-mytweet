@@ -29,10 +29,10 @@ import app.mytweet.models.Portfolio;
 import app.mytweet.models.Tweet;
 import app.mytweet.models.User;
 import app.mytweet.settings.SettingsActivity;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
@@ -138,13 +138,13 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
     //Some unknown reason this doesn't work.
     public void retrieveTweets() {
         RetrieveTweets retrieveTweets = new RetrieveTweets();
-        Call<List<Tweet>> call = app.myTweetService.getAllTweets();
+        Call<List<Tweet>> call = (Call<List<Tweet>>) app.myTweetServiceOpen.getAllTweets();
         call.enqueue(retrieveTweets);
     }
 
     class RetrieveTweets implements Callback<List<Tweet>> {
 
-        @Override
+/*        @Override
         public void onResponse(Response<List<Tweet>> response, Retrofit retrofit) {
             List<Tweet> listTwe = response.body();
             Toast.makeText(getActivity(), "Retrieving " + listTwe.size() + " Tweets", Toast.LENGTH_SHORT).show();
@@ -155,15 +155,41 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
         @Override
         public void onFailure(Throwable t) {
             Toast.makeText(getActivity(), "Failed to get tweet list", Toast.LENGTH_SHORT).show();
+        }*/
+
+        @Override
+        public void onResponse(Call<List<Tweet>> call, Response<List<Tweet>> response) {
+            List<Tweet> listTwe = response.body();
+            Toast.makeText(getActivity(), "Retrieving " + listTwe.size() + " Tweets", Toast.LENGTH_SHORT).show();
+            portfolio.refreshTweet(listTwe);
+            ((TweetAdapter) getListAdapter()).notifyDataSetChanged();
+        }
+
+        @Override
+        public void onFailure(Call<List<Tweet>> call, Throwable t) {
+            Toast.makeText(getActivity(), "Failed to get tweet list", Toast.LENGTH_SHORT).show();
         }
     }
 
     //test if retrieving users works using the same method as tweets ,it does
     //wasted enough time on this but may not be able to continue without it
     public void retrieveUsers() {
-        Call<List<User>> call = app.myTweetService.getAllUsers();
+        Call<List<User>> call = (Call<List<User>>) app.myTweetService.getAllUsers();
         call.enqueue(new Callback<List<User>>() {
             @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                List<User> listUsr = response.body();
+                Toast.makeText(getActivity(), "Retrieving " + listUsr.size() + " Users", Toast.LENGTH_SHORT).show();
+                //portfolio.refreshTweet(listTwe);
+                //((TweetAdapter)getListAdapter()).notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Toast.makeText(getActivity(), "Failed to get User list", Toast.LENGTH_SHORT).show();
+            }
+
+            /*@Override
             public void onResponse(Response<List<User>> response, Retrofit retrofit) {
                 List<User> listUsr = response.body();
                 Toast.makeText(getActivity(), "Retrieving " + listUsr.size() + " Users", Toast.LENGTH_SHORT).show();
@@ -174,7 +200,7 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
             @Override
             public void onFailure(Throwable t) {
                 Toast.makeText(getActivity(), "Failed to get User list", Toast.LENGTH_SHORT).show();
-            }
+            }*/
         });
     }
 
@@ -213,9 +239,20 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
                 final Tweet tweet = adapter.getItem(i);
                 //portfolio.deleteTweet(adapter.getItem(i));
                 portfolio.deleteTweet(tweet);
-                Call<Tweet> call = app.myTweetService.deleteTweetByUuid(tweet.id);
+                Call<Tweet> call = (Call<Tweet>) app.myTweetService.deleteTweetByUuid(tweet.id);
                 call.enqueue(new Callback<Tweet>() {
                     @Override
+                    public void onResponse(Call<Tweet> call, Response<Tweet> response) {
+                        Toast.makeText(getActivity(), "Tweet deleted successfully", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Tweet> call, Throwable t) {
+                        Log.e("delete_tweet", "" + t);
+                        Toast.makeText(getActivity(), "Tweet delete unsuccessfully", Toast.LENGTH_SHORT).show();
+                    }
+
+                    /*@Override
                     public void onResponse(Response<Tweet> response, Retrofit retrofit) {
                         Toast.makeText(getActivity(), "Tweet deleted successfully", Toast.LENGTH_SHORT).show();
                     }
@@ -224,7 +261,7 @@ public class TweetListFragment extends ListFragment implements OnItemClickListen
                     public void onFailure(Throwable t) {
                         Log.e("delete_tweet", "" + t);
                         Toast.makeText(getActivity(), "Tweet delete unsuccessfully", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                 });
             }
         }
