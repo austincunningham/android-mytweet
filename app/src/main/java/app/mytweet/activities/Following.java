@@ -22,10 +22,10 @@ import java.util.List;
 import app.mytweet.R;
 import app.mytweet.app.MyTweetApp;
 import app.mytweet.models.Tweet;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import static app.mytweet.android.helpers.IntentHelper.navigateUp;
 /**
  * Created by austin on 01/01/2017.
@@ -49,9 +49,21 @@ public class Following extends AppCompatActivity
         result = MyTweetApp.currentUser.following;
         for(int i = 0 ; i< result.size(); i++) {
             Log.v("get_results", ""+ result.get(i));
-            Call<List<Tweet>> call1 = app.myTweetService.getTweetsByUserId(result.get(i));
-            call1.enqueue(new Callback<List<Tweet>>() {
+            Call<List<Tweet>> call1 = (Call<List<Tweet>>)  app.myTweetService.getTweetsByUserId(result.get(i));
+            call1.enqueue(new Callback <List<Tweet>>() {
                 @Override
+                public void onResponse(Call<List<Tweet>> call, Response<List<Tweet>> response) {
+                    response.body();
+                    tweetList.addAll(response.body());
+                    Log.v("Following_tweets", ""+tweetList.size());
+                }
+
+                @Override
+                public void onFailure(Call<List<Tweet>> call, Throwable t) {
+
+                }
+
+                /*@Override
                 public void onResponse(Response<List<Tweet>> response, Retrofit retrofit) {
                     response.body();
                     tweetList.addAll(response.body());
@@ -61,7 +73,7 @@ public class Following extends AppCompatActivity
                 @Override
                 public void onFailure(Throwable t) {
                     Log.e("Following_tweets", ""+t);
-                }
+                }*/
             });
 
         }

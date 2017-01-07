@@ -27,10 +27,10 @@ import app.mytweet.app.MyTweetApp;
 import app.mytweet.models.Portfolio;
 import app.mytweet.models.Tweet;
 import app.mytweet.models.User;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static app.mytweet.android.helpers.ContactHelper.sendEmail;
 
@@ -192,9 +192,20 @@ public class MyTweetFragment extends Fragment implements
                         MyTweetApp.currentUser.following.add(tweet.tweeter);
                     }
                     Following.tweetList.clear();
-                    Call<User> call = app.myTweetService.follow( tweet.tweeter, MyTweetApp.currentUser);
+                    Call<User> call = (Call<User>) app.myTweetService.follow( tweet.tweeter, MyTweetApp.currentUser);
                     call.enqueue(new Callback<User>(){
                         @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            response.body();
+                            startActivity(new Intent(getActivity(), Following.class));
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Log.e("follow_error", ""+t);
+                        }
+
+                    /*    @Override
                         public void onResponse(Response<User> response, Retrofit retrofit) {
                             response.body();
                             startActivity(new Intent(getActivity(), Following.class));
@@ -202,7 +213,7 @@ public class MyTweetFragment extends Fragment implements
                         @Override
                         public void onFailure(Throwable t) {
                             Log.e("follow_error", ""+t);
-                        }
+                        }*/
                     });
                     startActivity(new Intent(getActivity(), Following.class));
                     break;
@@ -215,10 +226,20 @@ public class MyTweetFragment extends Fragment implements
                 }else{
                     MyTweetApp.currentUser.following.remove(tweet.tweeter);
                     Following.tweetList.clear();
-                    Call<User> call = app.myTweetService.unfollow(tweet.tweeter, MyTweetApp.currentUser);
+                    Call<User> call = (Call<User>) app.myTweetService.unfollow(tweet.tweeter, MyTweetApp.currentUser);
                     call.enqueue(new Callback<User>(){
 
                         @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+
+                        }
+
+                        /*@Override
                         public void onResponse(Response<User> response, Retrofit retrofit) {
 
                         }
@@ -226,7 +247,7 @@ public class MyTweetFragment extends Fragment implements
                         @Override
                         public void onFailure(Throwable t) {
 
-                        }
+                        }*/
                     });
                     startActivity(new Intent(getActivity(), Following.class));
                     break;
@@ -361,9 +382,25 @@ public class MyTweetFragment extends Fragment implements
         twe.tweeter= app.currentUser._id;
         twe.message = message;
         twe.name = app.currentUser.email;
-        Call<Tweet> call = app.myTweetService.newTweetByUserId( app.currentUser._id ,twe);
+        Call<Tweet> call = (Call<Tweet>) app.myTweetService.newTweetByUserId( app.currentUser._id ,twe);
         call.enqueue(new Callback<Tweet>(){
             @Override
+            public void onResponse(Call<Tweet> call, Response<Tweet> response) {
+                Tweet returnedTweet = response.body();
+                if(returnedTweet != null){
+                    Toast.makeText(getActivity(), "Tweet created successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Tweet null object returned due to incorrectly configured " +
+                            "client", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Tweet> call, Throwable t) {
+                Log.e("create_tweet", ""+t);
+            }
+
+/*            @Override
             public void onResponse(Response<Tweet> response, Retrofit retrofit) {
                 Tweet returnedTweet = response.body();
                 if(returnedTweet != null){
@@ -377,7 +414,7 @@ public class MyTweetFragment extends Fragment implements
             @Override
             public void onFailure(Throwable t) {
                 Log.e("create_tweet", ""+t);
-            }
+            }*/
         });
     }
 

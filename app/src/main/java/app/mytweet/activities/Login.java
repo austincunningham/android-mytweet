@@ -17,6 +17,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;*/
 
+import app.mytweet.retrofit.MyTweetServiceProxy;
 import app.mytweet.retrofit.RetrofitServiceFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +26,8 @@ import retrofit2.Response;
 /**
  * Created by austin on 27/09/2016.
  */
-public class Login extends AppCompatActivity implements Callback<Token>{
+public class Login extends AppCompatActivity //implements Callback<Token>
+{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,14 +42,18 @@ public class Login extends AppCompatActivity implements Callback<Token>{
         EditText password = (EditText) findViewById(R.id.passwordLogin);
 
         User user = new User(" ", " ", email.getText().toString(), password.getText().toString(), null);
-        Call<Token> call =(Call<Token>) app.myTweetServiceOpen.login(user);
-        call.enqueue(this);
+
+        if(app.validUser(user.email,user.password)){
+            startActivity(new Intent(this, TweetListActivity.class));
+        }
+         /*Call<Token> call =(Call<Token>) app.myTweetServiceOpen.login(user);
+        call.enqueue(this);*/
     }
 
-    @Override
+   /* @Override
     public void onResponse(Call<Token> call, Response<Token> response) {
         Token auth = response.body();
-        MyTweetApp.myTweetService = RetrofitServiceFactory.createService(app.mytweet.retrofit.MyTweetServiceProxy.class, auth.token);
+        MyTweetApp.myTweetService = RetrofitServiceFactory.createService(MyTweetServiceProxy.class, auth.token);
         MyTweetApp.currentUser = auth.user;
 
         Log.v("authenticated", " "+MyTweetApp.currentUser);
@@ -59,5 +65,5 @@ public class Login extends AppCompatActivity implements Callback<Token>{
         Log.e("authenticated", " "+t);
         Toast toast = Toast.makeText(this, "Login Pressed! Invalid Credentials", Toast.LENGTH_SHORT);
         toast.show();
-    }
+    }*/
 }
