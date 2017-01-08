@@ -3,7 +3,7 @@
 ### What is this repository for? ###
 
 * Quick summary this is an android application that mimics the functionality of Twitter, with login and signup features and the ability to post tweets to a time line.
-* Version v23
+* Version v9
 
 ### How do I get set up? ###
 
