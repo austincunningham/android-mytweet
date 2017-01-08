@@ -1,9 +1,5 @@
 # README For MyTweet Android App #
 
-
-![MyTweet.JPG](https://bitbucket.org/repo/Xxno5L/images/1034313775-MyTweet.JPG)
-![MyTweet-Activity.JPG](https://bitbucket.org/repo/Xxno5L/images/1141758961-MyTweet-Activity.JPG)
-
 ### What is this repository for? ###
 
 * Quick summary this is an android application that mimics the functionality of Twitter, with login and signup features and the ability to post tweets to a time line.
