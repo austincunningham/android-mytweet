@@ -11,7 +11,8 @@ import retrofit2.Retrofit.Builder;
 
 public class RetrofitServiceFactory
 {
-    public static final String API_BASE_URL = "http://10.0.2.2:4000";
+    //public static final String API_BASE_URL = "http://10.0.2.2:4000";
+    public static final String API_BASE_URL = "http://35.160.157.123:4000";//aws url
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
